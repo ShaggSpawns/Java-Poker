@@ -9,7 +9,7 @@ public class Poker {
 		shuffle();
 	}
 
-
+	fuck you
 	public static card[] shuffle() {
 		card[] shuffled = new card[];
 		card[] shuffleThis = new card[52];
