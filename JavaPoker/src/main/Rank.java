@@ -1,8 +1,8 @@
 package main;
 
 public enum Rank {
-	Ace(1, "Ace"), Two(2, "Two"), Three(3, "Three"), Four(4, "Four"), Five(5, "Five"),
-	Six(6, "Six"), Seven(7, "Seven"), Eight(8, "Eight"), Nine(9, "Nine"), Ten(10, "Ten"),
+	Ace(1, "Ace"), Two(2, "2"), Three(3, "3"), Four(4, "4"), Five(5, "5"),
+	Six(6, "6"), Seven(7, "7"), Eight(8, "8"), Nine(9, "9"), Ten(10, "10"),
 	Jack(11, "Jack"), Queen(12, "Queen"), King(13, "King");
 
     private int value;
