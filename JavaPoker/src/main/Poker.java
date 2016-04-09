@@ -6,6 +6,6 @@ import java.io.*;
 public class Poker {
 	public static void main(String[] args) {
 		Scanner kb = new Scanner(System.in);
-		shuffle();
+		PokerUtils.shuffle();
 	}
 }

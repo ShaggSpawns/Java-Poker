@@ -12,58 +12,56 @@ public class PokerUtils extends Poker{
 		int suit = 1;
 		int loc;
 		int position = 0;
-		String cardSuit = "club";
+		int k = 0;
+		Suit cardSuit = Suit.Club;
 		
 		for(int i = 0; i < 52; i++) {
 			switch(suit) {
 			case 2:
-				cardSuit = "spade";
+				cardSuit = Suit.Spade;
 				break;
 			case 3:
-				cardSuit = "diamond";
+				cardSuit = Suit.Diamond;
 				break;
 			case 4:
-				cardSuit = "heart";
+				cardSuit = Suit.Heart;
 				break;
 			default:
-				cardSuit = "club";
 				break;
 			}
 			
-			shuffleThis[i] = (value.set(cardNum), suit.set(cardSuit));
+			shuffleThis[i] = new Card(Rank.values()[k], cardSuit);
 			cardNum++;
 			if(cardNum == 14) {
 				suit++;
+				k = 1;
 				cardNum = 1;
 			}
 		}
 		
 		for(int a = 0; a < 52; a++)
-			shuffled[a] = 0;
+			shuffled[a] = new Card(Rank.values()[13], cardSuit);
 		
 		System.out.print("Shuffling, please wait");
 		
 		for(int i = 0; i < 52; i++) {
 			loc = (int)(Math.random()*52);
 			
-			if(i%4 == 0)
+			if(i%9 == 0)
 				System.out.print(".");
 			
-			if(shuffled[loc] == 0) {
+			if(shuffled[loc].getValue() == Rank.values()[13]) {
 				shuffled[loc] = shuffleThis[position];
 				position++;
 			}
 			else
 				i--;
 		}
-		for(int i = 0; i < 52; i ++)
-			if(shuffled[i] == 0)
-				shuffled[i] = 99;
 		return shuffled;
 	}
 	
 	//TODO parameters (board, player hands)
 	public static int score() {
-		
+		return 0;
 	}
 }

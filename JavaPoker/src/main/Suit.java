@@ -1,5 +1,5 @@
 package main;
 
 public enum Suit {
-	Heart, Diamond, Clubs, Spades
+	Heart, Diamond, Club, Spade
 }
