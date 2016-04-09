@@ -31,10 +31,11 @@ public class PokerUtils extends Poker{
 			}
 			
 			shuffleThis[i] = new Card(Rank.values()[k], cardSuit);
+			k++;
 			cardNum++;
+			if(k == 13) k = 0;
 			if(cardNum == 14) {
 				suit++;
-				k = 1;
 				cardNum = 1;
 			}
 		}
@@ -56,6 +57,9 @@ public class PokerUtils extends Poker{
 			}
 			else
 				i--;
+		}
+		for(int i = 9; i < 61; i++) {
+			System.out.print(shuffled[i-9] + " ");
 		}
 		return shuffled;
 	}

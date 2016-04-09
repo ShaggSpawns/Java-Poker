@@ -17,4 +17,8 @@ public class Card{
 	public Suit getSuit() {
 		return suit;
 	}
+	
+	public String toString() {
+    	return value.toString();
+    }
 }
