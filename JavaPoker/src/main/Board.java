@@ -6,7 +6,7 @@ import java.util.Collections;
 public class Board {
 	private ArrayList<Player> players;
 	private ArrayList<Card> shuffledCards;
-	private ArrayList<Card> boardCards;
+	private ArrayList<Card> boardCards = new ArrayList<Card>();
 	
 	public Board(ArrayList<Player> players) {
 		this.players = players;
@@ -15,7 +15,12 @@ public class Board {
 			boardCards.add(shuffledCards.get(0));
 			shuffledCards.remove(0);
 		}
-		
+		for (Player p: players) {
+			for (int i = 0; i < 2; i++) {
+				p.addCard(shuffledCards.get(0));
+				shuffledCards.remove(0);
+			}
+		}
 	}
 	
 	private ArrayList<Card> getShuffledCards() {

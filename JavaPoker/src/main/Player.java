@@ -1,11 +1,16 @@
 package main;
 
+import java.util.ArrayList;
+
 public class Player {
 	private double chipCount;
 	private int playTimes = 0; // TODO Save player data to file
+	private String name;
+	private ArrayList<Card> cards;
 	
 	Player(String name) {
 		setChipCount(3000);
+		setName(name);
 	}
 	
 	Player(String name, double chipCount) {
@@ -37,5 +42,13 @@ public class Player {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+	}
+	
+	private void setName(String name) {
+		this.name = name;
+	}
+	
+	public String getName() {
+		return name;
 	}
 }
