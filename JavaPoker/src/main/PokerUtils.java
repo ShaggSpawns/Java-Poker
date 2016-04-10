@@ -4,7 +4,6 @@ import java.util.ArrayList;
 //TODO Score method
 
 public class PokerUtils{
-	//TODO parameters (board, player hands)
 	public int[] goodCards = {0, 0};
 	public int numGoodCards = 0;
 	public boolean handPairs = false;
