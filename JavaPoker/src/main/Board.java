@@ -63,7 +63,7 @@ public class Board {
 		String input;
 		for (Player p: players) {
 			if (!foldedPlayers.contains(p)) {
-				System.out.print(p.getName() + " enter bet (or fold): ");
+				System.out.print(p + " enter bet (or fold): ");
 				input = scanner.nextLine().toUpperCase();
 				if (input.equals("FOLD"))
 					foldedPlayers.add(p);
