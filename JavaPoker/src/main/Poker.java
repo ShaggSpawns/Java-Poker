@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Poker {
 	public static String userInput;
-	public static int numHandsPlayed = 0;
+	public static int numHandsPlayed = 1;
 	public static int bigBlind, smallBlind;
 	public static boolean playMore = true;
 	public static Scanner kb = new Scanner(System.in);
@@ -20,13 +20,16 @@ public class Poker {
 		while(playMore) {
 			introSequence();
 			while(playerList.size() > 1) {
-				board = new Board(playerList, ANTE);
+				board = new Board(playerList, ANTE, numHandsPlayed);
 				
 				numHandsPlayed++;
 				
 				//TODO move this to board class and make players pay these amounts every 8 rounds. IE. Round 1, player 1 pays BB. Player 9 pays SB
 				//players 2-8 pay ante. Round 2, Player 2 pays BB, Player 1 pays SB, others pay ante. Etc.
-				if(numHandsPlayed%4 == 0) ANTE += 50;
+				if(numHandsPlayed%46 == 0) {
+					ANTE += 50;
+					numHandsPlayed = 1;
+				}
 				bigBlind = (int) (ANTE/playerList.size()-1);
 				smallBlind = bigBlind/2;
 			}

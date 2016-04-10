@@ -11,11 +11,12 @@ public class Board {
 	private ArrayList<Card> boardCards = new ArrayList<Card>();
 	private double pot = 0.0;
 	
-	public Board(ArrayList<Player> players, double ante) {
+	public Board(ArrayList<Player> players, double ante, int handCount) {
 		this.players = players;
 		shuffledCards = getShuffledCards();
 		
 		dealCards();
+		setAnte(handCount, players.size());
 		payAnte(ante);
 		for (int i = 3; i <= 5; i++) {
 			showCards(i);
@@ -86,5 +87,10 @@ public class Board {
 	
 	public void printPot() {
 		System.out.println("Pot: " + pot);
+	}
+	
+	public int setAnte(int handCount, int numPlayers) {
+		int something = handCount%numPlayers; 0 player 1 BB player 9 SB 1 player 2BB player 1 SB
+		return 0;
 	}
 }
