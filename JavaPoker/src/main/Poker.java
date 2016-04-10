@@ -16,7 +16,7 @@ public class Poker {
 	public static void main(String[] args) {
 		introSequence();
 		
-		while(checkBroke()) {
+		while(board.getPlayers() > 1) {
 			
 		}
 		
@@ -41,23 +41,6 @@ public class Poker {
 		
 		board = new Board(playerList);
 		
-	}
-	
-	public static boolean checkBroke() {
-		boolean p1 = false;
-		boolean p2 = false;
-		
-		for(int i = 0; i < playerList.size(); i++) {
-			if(p1 == true)
-				if(playerList.get(i).getChipCount() > 0) p2 = true;
-			if(p1 == false)
-				if(playerList.get(i).getChipCount() > 0) p1 = true;	
-		}
-		if(p2 != true) { 
-			return false;
-		}
-		else
-			return true;
 	}
 	
 	public static void endSequence() {
