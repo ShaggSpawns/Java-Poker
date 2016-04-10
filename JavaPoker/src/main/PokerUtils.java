@@ -16,7 +16,6 @@ public class PokerUtils{
 		boolean threeOfKind = set(playerHand, boardCards);
 		boolean fourOfKind = false;
 		boolean fullHouse = false;
-		boolean straight = checkStraight(playerHand, straightCards);
 		boolean flush = checkFlush(playerHand, boardCards);
 		boolean straightFlush = false;
 		
@@ -28,8 +27,6 @@ public class PokerUtils{
 			return 4;
 		if(flush)
 			return 5;
-		if(straight)
-			return 6;
 		if(threeOfKind)
 			return 7;
 		if(twoPair)
