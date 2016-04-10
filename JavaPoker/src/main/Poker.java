@@ -13,13 +13,15 @@ public class Poker {
 	public static ArrayList<Player> playerList = new ArrayList<Player>();
 	
 	public static void main(String[] args) {
-		introSequence();
-		
-		while(playerList.size() > 1) {
-			board = new Board(playerList);
+		while(playMore) {
+			introSequence();
+			
+			while(playerList.size() > 1) {
+				board = new Board(playerList);
+			}
+			
+			endSequence();
 		}
-		
-		endSequence();
 	}
 	
 	public static void introSequence() {
@@ -45,5 +47,10 @@ public class Poker {
 	public static void endSequence() {
 		System.out.println("Game Over!");
 		System.out.println("Player " + playerList.get(0).getName() + " wins with " + playerList.get(0).getChipCount());
+		
+		System.out.println("Would you like to play again?");
+		userInput = kb.nextLine();
+		if(userInput.equals("YES")) playMore = true;
+		else playMore = false;
 	}
 }
