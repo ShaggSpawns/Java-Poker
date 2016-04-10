@@ -11,12 +11,11 @@ public class Poker {
 	public static Board board;
 	public static int numPlayers;
 	public static ArrayList<Player> playerList = new ArrayList<Player>();
-	public static boolean noBroke = true;
 	
 	public static void main(String[] args) {
 		introSequence();
 		
-		while(board.getPlayers() > 1) {
+		while(playerList.size() > 1) {
 			
 		}
 		
@@ -45,5 +44,6 @@ public class Poker {
 	
 	public static void endSequence() {
 		System.out.println("Game Over!");
+		System.out.println("Player " + playerList.get(0).getName() + " wins with " + playerList.get(0).getChipCount());
 	}
 }
