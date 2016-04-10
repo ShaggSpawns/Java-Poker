@@ -60,27 +60,25 @@ public class PokerUtils extends Poker{
 				break;
 			}
 		}
-		if (num3s != 0)
-			fourOfKind = true;
-		else if (num2s == 2 && handPair)
-			fourOfKind = true;
-		else if (num2s == 4)
-			fullHouse = true;
-		else if (num2s == 2 && num1s == 1)
-			fullHouse = true;
-		else if (num2s == 2)
-			threeOfKind = true;
-		else if (num1s == 1 && handPair)
-			threeOfKind = true;
-		else if (num1s == 2)
-			twoPair = true;
-		else if (num1s == 1)
-			pair = true;
+		if (num3s != 0) fourOfKind = true;
+		else if (num2s == 2 && handPair) fourOfKind = true;
+		else if (num2s == 4) fullHouse = true;
+		else if (num2s == 2 && num1s == 1) fullHouse = true;
+		else if (num2s == 2) threeOfKind = true;
+		else if (num1s == 1 && handPair) threeOfKind = true;
+		else if (num1s == 2) twoPair = true;
+		else if (num1s == 1) pair = true;
 		// End Permutations
 		
 		// Returns
-
-
+		if(straightFlush) return 2;
+		if(fourOfKind) return 3;
+		if(fullHouse) return 4;
+		if(flush) return 5;
+		if(straight) return 6;
+		if(threeOfKind) return 7;
+		if(twoPair) return 8;
+		if(pair) return 9;
 		return 10;
 	}
 	
