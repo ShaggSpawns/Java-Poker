@@ -1,19 +1,24 @@
 package main;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 public class Board {
-	private ArrayList<Card> cards;
 	private ArrayList<Player> players;
+	private ArrayList<Card> shuffledCards;
+	private ArrayList<Card> boardCards;
 	
-	public Board(Player[] players) {
-		this.players = new ArrayList<Player>(Arrays.asList(players));
-		cards = new ArrayList<Card>(getBoardCards());
+	public Board(ArrayList<Player> players) {
+		this.players = players;
+		shuffledCards = new ArrayList<Card>(getShuffledCards());
+		for (int i = 0; i < 5; i++) {
+			boardCards.add(shuffledCards.get(0));
+			shuffledCards.remove(0);
+		}
+		
 	}
 	
-	private ArrayList<Card> getBoardCards() {
+	private ArrayList<Card> getShuffledCards() {
 		ArrayList<Card> shuffled = new ArrayList<Card>();
 		for (Rank r: Rank.values()) {
 			for (Suit s: Suit.values()) {
@@ -22,5 +27,9 @@ public class Board {
 		}
 		Collections.shuffle(shuffled);
 		return shuffled;
+	}
+	
+	public void printPlayers() {
+		System.out.println(players);
 	}
 }
