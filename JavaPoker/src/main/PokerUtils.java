@@ -5,71 +5,12 @@ import java.io.*;
 //TODO Score method
 
 public class PokerUtils extends Poker{
-	public static Card[] shuffle() {
-		Card[] shuffled = new Card[52];
-		Card[] shuffleThis = new Card[52];
-		int cardNum = 1;
-		int suit = 1;
-		int loc;
-		int position = 0;
-		int k = 0;
-		Suit cardSuit = Suit.Club;
-		
-		for(int i = 0; i < 52; i++) {
-			switch(suit) {
-			case 2:
-				cardSuit = Suit.Spade;
-				break;
-			case 3:
-				cardSuit = Suit.Diamond;
-				break;
-			case 4:
-				cardSuit = Suit.Heart;
-				break;
-			default:
-				break;
-			}
-			
-			shuffleThis[i] = new Card(Rank.values()[k], cardSuit);
-			k++;
-			cardNum++;
-			if(k == 13) k = 0;
-			if(cardNum == 14) {
-				suit++;
-				cardNum = 1;
-			}
-		}
-		
-		for(int a = 0; a < 52; a++)
-			shuffled[a] = new Card(Rank.values()[13], cardSuit);
-		
-		System.out.print("Shuffling, please wait");
-		
-		for(int i = 0; i < 52; i++) {
-			loc = (int)(Math.random()*52);
-			
-			if(i%9 == 0)
-				System.out.print(".");
-			
-			if(shuffled[loc].getRank() == Rank.values()[13]) {
-				shuffled[loc] = shuffleThis[position];
-				position++;
-			}
-			else
-				i--;
-		}
-		for(int i = 9; i < 61; i++) {
-			System.out.print(shuffled[i-9] + " ");
-		}
-		return shuffled;
-	}
-	
 	//TODO parameters (board, player hands)
 	public static int score(Card[] playerHand, ArrayList<Card> boardCards) {
 		Card[] board = (Card[]) boardCards.toArray();
 		Card[] player = playerHand;
 		
-		boolean handPair = checkHandPair();
+		boolean handPair = checkHandPair(player);
 		boolean pair = false;
 		boolean twoPair = false;
 		boolean threeOfKind = false;
@@ -84,13 +25,13 @@ public class PokerUtils extends Poker{
 		boolean[] hasElement = {false,false,false,false,false};
 		for (int k = 0; k < boardCards.size(); k++) {
 			for (int j = 0; j < player.length; j++) {
-				if (board[k] == player[j]) {
+				if (board[k].getRank() == player[j].getRank()) {
 					hasElement[k] = true;
 				}
 			}
 			if (hasElement[k]) {
 				for (int j = 0; j < boardCards.size(); j++) {
-					if (boardCards.get(k) == boardCards.get(j))
+					if (board[k].getRank() == board[j].getRank())
 						numOfElement[k]++;
 				}
 			}
@@ -119,32 +60,30 @@ public class PokerUtils extends Poker{
 				break;
 			}
 		}
-		if (num3s != 0)
-			fourOfKind = true;
-		else if (num2s == 2 && handPair)
-			fourOfKind = true;
-		else if (num2s == 4)
-			fullHouse = true;
-		else if (num2s == 2 && num1s == 1)
-			fullHouse = true;
-		else if (num2s == 2)
-			threeOfKind = true;
-		else if (num1s == 1 && handPair)
-			threeOfKind = true;
-		else if (num1s == 2)
-			twoPair = true;
-		else if (num1s == 1)
-			pair = true;
+		if (num3s != 0) fourOfKind = true;
+		else if (num2s == 2 && handPair) fourOfKind = true;
+		else if (num2s == 4) fullHouse = true;
+		else if (num2s == 2 && num1s == 1) fullHouse = true;
+		else if (num2s == 2) threeOfKind = true;
+		else if (num1s == 1 && handPair) threeOfKind = true;
+		else if (num1s == 2) twoPair = true;
+		else if (num1s == 1) pair = true;
 		// End Permutations
 		
 		// Returns
-
-
+		if(straightFlush) return 2;
+		if(fourOfKind) return 3;
+		if(fullHouse) return 4;
+		if(flush) return 5;
+		if(straight) return 6;
+		if(threeOfKind) return 7;
+		if(twoPair) return 8;
+		if(pair) return 9;
 		return 10;
 	}
 	
-	public static boolean checkHandPair() {
-		return playerCards[0] == playerCards[1];
+	public static boolean checkHandPair(Card[] player) {
+		return player[0] == player[1];
 	}
 	
 	public static boolean checkPair() {
