@@ -16,8 +16,7 @@ public class Board {
 		shuffledCards = getShuffledCards();
 		
 		dealCards();
-		setAnte(handCount, players.size());
-		payAnte(ante);
+		payAnte(ante, handCount);
 		for (int i = 3; i <= 5; i++) {
 			showCards(i);
 			getBet();
@@ -38,7 +37,20 @@ public class Board {
 		}
 	}
 	
-	private void payAnte(double ante) {
+	private void payAnte(double ante, int handCount) {
+		for (int i = 0; i < players.size(); i++) {
+			if (i == handCount%players.size()) {
+				pot += players.get(i).pay(ante * (players.size() - 1));
+				if (i != 0)
+					pot += players.get(i - 1).pay((ante * (players.size() - 1)) / 2);
+				else
+					pot += players.get(players.size() - 1).pay((ante * (players.size() - 1)) / 2);
+			} else if (i != handCount%players.size() - 1) {
+				if (handCount%players.size() != -1)
+					pot += players.get(i).pay(ante);
+			}
+			
+		}
 		for (Player p: players) {
 			pot += p.pay(ante);
 		}
@@ -87,12 +99,5 @@ public class Board {
 	
 	public void printPot() {
 		System.out.println("Pot: " + pot);
-	}
-	
-	public int setAnte(int handCount, int numPlayers) {
-		int something = handCount%numPlayers; 0 player 1 BB player 9 SB 1 player 2 BB player 1 SB
-		return 0;
-		
-		players.get(handCount%numPlayers);
 	}
 }
