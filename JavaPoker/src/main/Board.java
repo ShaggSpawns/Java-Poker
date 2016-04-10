@@ -91,9 +91,8 @@ public class Board {
 				}
 			}
 		}
-		if (lowestScore == 10) {
-			PokerUtils.highestCardHolder(winners);
-		}
+		if (winners.size() != 1)
+			PokerUtils.determineWinner(winners, lowestScore);
 		for (Player p: winners) {
 			p.addWinnings(pot / winners.size());
 		}

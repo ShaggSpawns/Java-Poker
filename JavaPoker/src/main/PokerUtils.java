@@ -58,7 +58,7 @@ public class PokerUtils {
 		for (Card p: playerCards) {
 			for (Card b: boardCards) {
 				if (p.getSuit() == b.getSuit()) {
-					switch(p.getSuit()) {
+					switch (p.getSuit()) {
 					case Heart:
 						numHeart++;
 						break;
@@ -110,7 +110,33 @@ public class PokerUtils {
 		return false;
 	}
 	
-	public static void highestCardHolder(ArrayList<Player> winners) {
+	public static void determineWinner(ArrayList<Player> winners, int lowestScore) {
+		switch (lowestScore) {
+		case 1:
+			break;
+		case 2:
+			break;
+		case 3:
+			break;
+		case 4:
+			break;
+		case 5:
+			break;
+		case 6:
+			break;
+		case 7:
+			break;
+		case 8:
+			break;
+		case 9:
+			break;
+		case 10:
+			highestCardHolder(winners);
+			break;
+		}
+	}
+	
+	private static void highestCardHolder(ArrayList<Player> winners) {
 		Card highestCard = winners.get(0).getCards().get(0);
 		ArrayList<Player> highestCardHolders = new ArrayList<Player>();
 		for (Player p: winners) {
