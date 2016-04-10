@@ -12,7 +12,8 @@ public class PokerUtils extends Poker{
 	public static int score(Card[] playerHand, ArrayList<Card> boardCards) {
 		int cardSelector = 0;
 		
-		
+		if(handPairs)
+			return 9;
 		return 10;
 	}
 	
