@@ -27,15 +27,16 @@ public class Poker {
 			
 			System.out.println("Enter in number of players (2-9)");
 			numPlayers = kb.nextInt();
+			kb.nextLine();
 			
-			for(int i = 0; i < numPlayers; i++) {
+			for(int i = 1; i < numPlayers+1; i++) {
 				System.out.println("Enter in player " + i + "'s name:");
 				playerList.add(new Player(kb.nextLine()));
 			}
 			new Board(playerList);
 			
 			//TODO input parameters
-			PokerUtils.score();
+			//PokerUtils.score();
 		}
 	}
 }
