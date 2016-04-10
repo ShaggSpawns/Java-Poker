@@ -70,6 +70,6 @@ public class Player {
 	}
 	
 	public String toString() {
-		return name + " (" + chipCount + ")" + cards;
+		return name + " (" + chipCount + ") " + cards;
 	}
 }
