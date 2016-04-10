@@ -13,7 +13,6 @@ public class PokerUtils extends Poker{
 		int cardSelector = 0;
 		
 		
-		
 		return 10;
 	}
 	
