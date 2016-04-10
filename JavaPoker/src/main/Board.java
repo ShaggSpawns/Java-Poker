@@ -90,7 +90,9 @@ public class Board {
 	}
 	
 	public int setAnte(int handCount, int numPlayers) {
-		int something = handCount%numPlayers; 0 player 1 BB player 9 SB 1 player 2BB player 1 SB
+		int something = handCount%numPlayers; 0 player 1 BB player 9 SB 1 player 2 BB player 1 SB
 		return 0;
+		
+		players.get(handCount%numPlayers);
 	}
 }
