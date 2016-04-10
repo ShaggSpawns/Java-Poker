@@ -22,6 +22,7 @@ public class Board {
 			getBet();
 		}
 		determineWinner();
+		removePlayerCards();
 	}
 	
 	private void dealCards() {
@@ -96,8 +97,13 @@ public class Board {
 	}
 	
 	private int score(Player p) {
-		
-		return 10;
+		return PokerUtils.score(p.getCards(), boardCards);
+	}
+	
+	private void removePlayerCards() {
+		for (Player p: players) {
+			p.clearHand();
+		}
 	}
 	
 	private ArrayList<Card> getShuffledCards() {
