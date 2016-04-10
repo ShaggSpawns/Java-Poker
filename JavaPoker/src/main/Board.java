@@ -49,7 +49,6 @@ public class Board {
 				if (handCount%players.size() != -1)
 					pot += players.get(i).pay(ante);
 			}
-			
 		}
 	}
 	
