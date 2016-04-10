@@ -96,6 +96,7 @@ public class Board {
 	}
 	
 	private int score(Player p) {
+		
 		return 10;
 	}
 	
