@@ -35,6 +35,7 @@ public class Poker {
 			}
 			endSequence();
 		}
+		kb.close();
 	}
 	
 	public static void introSequence() {
