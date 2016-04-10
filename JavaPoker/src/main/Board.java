@@ -51,9 +51,6 @@ public class Board {
 			}
 			
 		}
-		for (Player p: players) {
-			pot += p.pay(ante);
-		}
 	}
 	
 	private void showCards(int i) {
