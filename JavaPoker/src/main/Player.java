@@ -6,7 +6,7 @@ public class Player {
 	private double chipCount;
 	private int playTimes = 0; // TODO Save player data to file
 	private String name;
-	private ArrayList<Card> cards;
+	private ArrayList<Card> cards = new ArrayList<Card>();
 	
 	Player(String name) {
 		setName(name);
