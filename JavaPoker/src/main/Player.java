@@ -9,12 +9,21 @@ public class Player {
 	private ArrayList<Card> cards;
 	
 	Player(String name) {
-		setChipCount(3000);
 		setName(name);
+		setChipCount(3000);
 	}
 	
 	Player(String name, double chipCount) {
+		setName(name);
 		setChipCount(chipCount);
+	}
+	
+	public void addCard(Card card) {
+		cards.add(card);
+	}
+	
+	public void clearHand() {
+		cards.removeAll(cards);
 	}
 	
 	public void newChipCount(double winnings) {
@@ -50,5 +59,9 @@ public class Player {
 	
 	public String getName() {
 		return name;
+	}
+	
+	public ArrayList<Card> getCards() {
+		return cards;
 	}
 }
