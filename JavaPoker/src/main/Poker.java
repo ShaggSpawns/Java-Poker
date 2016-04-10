@@ -16,7 +16,7 @@ public class Poker {
 		introSequence();
 		
 		while(playerList.size() > 1) {
-			
+			board = new Board(playerList);
 		}
 		
 		endSequence();
