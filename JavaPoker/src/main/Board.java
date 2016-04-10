@@ -78,10 +78,10 @@ public class Board {
 	private void determineWinner() {
 		int lowestScore = 10;
 		ArrayList<Player> winners = new ArrayList<Player>();
-		PokerUtils scorer = new PokerUtils();
+		PokerUtils pokerUtils = new PokerUtils();
 		for (Player p: players) {
 			if (!foldedPlayers.contains(p)) {
-				int score = scorer.score(p.getCards(), boardCards);
+				int score = pokerUtils.score(p.getCards(), boardCards);
 				if (score < lowestScore) {
 					winners.removeAll(winners);
 					winners.add(p);
