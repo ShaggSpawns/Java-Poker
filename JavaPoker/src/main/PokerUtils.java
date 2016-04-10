@@ -82,17 +82,17 @@ public class PokerUtils{
 		if(goodCards[0] != 1) start = 1;
 		if(goodCards[1] == 1) end = 0;
 		
-		for(int i = start; i <= end; i++)
+		for(int i = start; i <= end; i++) {
 			for(int k = 0; k < 5; k++) {
 				if(playerHand.get(i).getRank() == boardCards.get(k).getRank())
 					numOfCards++;
 			}
-		
-		if(handPairs == true)
-			numOfCards++;
-		
-		if(numOfCards >= 3)
-			return true;
+			if(handPairs == true)
+				numOfCards++;
+			if(numOfCards >= 3)
+				return true;
+			numOfCards = 1;
+		}
 		return false;
 	}
 	
