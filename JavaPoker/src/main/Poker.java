@@ -5,18 +5,25 @@ import java.util.ArrayList;
 //TODO Score Method, Chips, Betting, Orbit Count
 
 public class Poker {
+	public static String userInput;
+	public static boolean playMore = true;
+	public static Scanner kb = new Scanner(System.in);
+	public static Board board;
+	public static int numPlayers;
+	public static ArrayList<Player> playerList = new ArrayList<Player>();
+	public static boolean noBroke = true;
+	
 	public static void main(String[] args) {
+		introSequence();
 		
-		ArrayList<Player> playerList = new ArrayList<Player>();
-		Board board;
-		Scanner kb = new Scanner(System.in);
-		String userInput;
-		int numPlayers;
-		boolean playMore = true;
-		boolean noBroke = true;
-		boolean p1 = false;
-		boolean p2 = false;
+		while(checkBroke()) {
+			
+		}
 		
+		endSequence();
+	}
+	
+	public static void introSequence() {
 		System.out.println("Would you like to play some POKER!");
 		userInput = kb.nextLine().toUpperCase();
 		
@@ -34,19 +41,26 @@ public class Poker {
 		
 		board = new Board(playerList);
 		
-		while(noBroke) {
-			for(int i = 0; i < playerList.size(); i++) {
-				if(p1 == true)
-					if(playerList.get(i).getChipCount() > 0)
-						p2 = true;
-				if(p1 == false)
-					if(playerList.get(i).getChipCount() > 0)
-						p1 = true;	
-			}
-			if(p2 != true) { 
-				noBroke = false;
-				break;
-			}
+	}
+	
+	public static boolean checkBroke() {
+		boolean p1 = false;
+		boolean p2 = false;
+		
+		for(int i = 0; i < playerList.size(); i++) {
+			if(p1 == true)
+				if(playerList.get(i).getChipCount() > 0) p2 = true;
+			if(p1 == false)
+				if(playerList.get(i).getChipCount() > 0) p1 = true;	
 		}
+		if(p2 != true) { 
+			return false;
+		}
+		else
+			return true;
+	}
+	
+	public static void endSequence() {
+		
 	}
 }
