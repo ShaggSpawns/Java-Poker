@@ -30,7 +30,7 @@ public class Player {
 		setChipCount(chipCount - amount);
 		return amount;
 	}
-	public void newChipCount(double winnings) {
+	public void addWinnings(double winnings) {
 		setChipCount(chipCount + winnings);
 	}
 	

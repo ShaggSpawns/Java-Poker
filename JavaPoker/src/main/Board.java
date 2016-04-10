@@ -75,7 +75,28 @@ public class Board {
 	}
 	
 	private void determineWinner() {
-		//TODO re-add folded players to player list
+		int lowestScore = 10;
+		ArrayList<Player> winners = new ArrayList<Player>();
+		
+		for (Player p: players) {
+			if (!foldedPlayers.contains(p)) {
+				int score = score(p);
+				if (score < lowestScore) {
+					winners.removeAll(winners);
+					winners.add(p);
+					lowestScore = score;
+				} else if (score == lowestScore) {
+					winners.add(p);
+				}
+			}
+		}
+		for (Player p: winners) {
+			p.addWinnings(pot);
+		}
+	}
+	
+	private int score(Player p) {
+		return 10;
 	}
 	
 	private ArrayList<Card> getShuffledCards() {
