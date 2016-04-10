@@ -14,21 +14,17 @@ public class Poker {
 		int numPlayers;
 		boolean playMore = true;
 		
+		System.out.println("Would you like to play some POKER!");
+		userInput = kb.nextLine().toUpperCase();
+		
+		if(userInput.equals("YES")) playMore = true;
+		else playMore = false;
+		
+		System.out.println("Enter in number of players (2-9)");
+		numPlayers = kb.nextInt();
+		kb.nextLine();
+		
 		while(playMore) {
-			System.out.println("Would you like to play some POKER!");
-			userInput = kb.nextLine().toUpperCase();
-			
-			if(userInput.equals("YES"))
-				playMore = true;
-			else {
-				playMore = false;
-				break;
-			}
-			
-			System.out.println("Enter in number of players (2-9)");
-			numPlayers = kb.nextInt();
-			kb.nextLine();
-			
 			for(int i = 1; i < numPlayers+1; i++) {
 				System.out.println("Enter in player " + i + "'s name:");
 				playerList.add(new Player(kb.nextLine()));
