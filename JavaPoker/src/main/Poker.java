@@ -10,12 +10,13 @@ public class Poker {
 	public static Scanner kb = new Scanner(System.in);
 	public static Board board;
 	public static ArrayList<Player> playerList = new ArrayList<Player>();
+	public static final double ANTE = 100;
 	
 	public static void main(String[] args) {
 		while(playMore) {
 			introSequence();
 			while(playerList.size() > 1) {
-				board = new Board(playerList);
+				board = new Board(playerList, ANTE);
 			}
 			endSequence();
 		}
@@ -36,7 +37,7 @@ public class Poker {
 			playerList.add(new Player(kb.nextLine()));
 		}
 		
-		board = new Board(playerList);
+		board = new Board(playerList, ANTE);
 	}
 	
 	public static void endSequence() {

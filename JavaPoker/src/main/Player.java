@@ -26,6 +26,10 @@ public class Player {
 		cards.removeAll(cards);
 	}
 	
+	public double pay(double amount) {
+		setChipCount(chipCount - amount);
+		return amount;
+	}
 	public void newChipCount(double winnings) {
 		setChipCount(chipCount + winnings);
 	}
