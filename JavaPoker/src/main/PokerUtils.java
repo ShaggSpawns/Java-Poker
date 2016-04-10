@@ -1,9 +1,10 @@
 package main;
+
 import java.util.ArrayList;
 
 //TODO Score method
 
-public class PokerUtils{
+public class PokerUtils {
 	public int[] goodCards = {0, 0};
 	public int numGoodCards = 0;
 	public boolean handPairs = false;
