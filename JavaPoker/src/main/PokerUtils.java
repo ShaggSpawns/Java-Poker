@@ -13,8 +13,8 @@ public class PokerUtils{
 		int cardSelector = 0;
 		boolean pair = (pair(playerHand, boardCards) || handPair(playerHand));
 		boolean handPair = handPair(playerHand);
-		boolean twoPair = false;
-		boolean threeOfKind = false;
+		boolean twoPair = twoPair(playerHand, boardCards);
+		boolean threeOfKind = set(playerHand, boardCards);
 		boolean fourOfKind = false;
 		boolean fullHouse = false;
 		boolean straight = checkStraight(playerHand, straightCards);
@@ -57,12 +57,36 @@ public class PokerUtils{
 		return false;
 	}
 	
-	public boolean set(Card[] playerHand, ArrayList<Card> boardCards) {
+	public boolean twoPair(ArrayList<Card> playerHand, ArrayList<Card> boardCards) {
+		boolean p1 = false;
+		boolean p2 = false;
+		for(int i = 0; i < 5; i++)
+			if(playerHand.get(0).getRank() == boardCards.get(i).getRank())
+				p1 = true;
+		
+		if(p1 == false)
+			return false;
+		
+		for(int i = 0; i < 5; i++)
+			if(playerHand.get(1).getRank() == boardCards.get(i).getRank())
+				p2 = true;
+		if(p1 && p2)
+			return true;
+		return false;
+	}
+	
+	public boolean set(ArrayList<Card> playerHand, ArrayList<Card> boardCards) {
 		int numOfCards = 1;
-		for(int k = 0; k < 5; k++) {
-			if(playerHand[0].getRank() == boardCards.get(k).getRank())
-				numOfCards++;
-		}
+		int start = 0;
+		int end = 1;
+		if(goodCards[0] != 1) start = 1;
+		if(goodCards[1] == 1) end = 0;
+		
+		for(int i = start; i <= end; i++)
+			for(int k = 0; k < 5; k++) {
+				if(playerHand.get(i).getRank() == boardCards.get(k).getRank())
+					numOfCards++;
+			}
 		
 		if(handPairs == true)
 			numOfCards++;
