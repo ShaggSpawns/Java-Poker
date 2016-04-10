@@ -61,6 +61,6 @@ public class Poker {
 	}
 	
 	public static void endSequence() {
-		
+		System.out.println("Game Over!");
 	}
 }
