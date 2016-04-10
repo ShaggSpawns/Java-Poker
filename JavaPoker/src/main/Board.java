@@ -10,7 +10,7 @@ public class Board {
 	
 	public Board(ArrayList<Player> players) {
 		this.players = players;
-		shuffledCards = new ArrayList<Card>(getShuffledCards());
+		shuffledCards = getShuffledCards();
 		for (int i = 0; i < 5; i++) {
 			boardCards.add(shuffledCards.get(0));
 			shuffledCards.remove(0);
