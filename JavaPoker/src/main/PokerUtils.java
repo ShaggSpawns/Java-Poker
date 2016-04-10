@@ -11,8 +11,9 @@ public class PokerUtils extends Poker{
 	
 	public static int score(Card[] playerHand, ArrayList<Card> boardCards) {
 		int cardSelector = 0;
+		boolean pair = (pair(playerHand, boardCards) || handPair(playerHand));
 		
-		if(handPairs)
+		if(pair)
 			return 9;
 		return 10;
 	}
