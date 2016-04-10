@@ -1,17 +1,16 @@
 package main;
 
-public class Card{
-	
-	private Rank value;
+public class Card {
+	private Rank rank;
 	private Suit suit;
 	
-	Card(Rank value, Suit suit) {
-		this.value = value;
+	Card(Rank rank, Suit suit) {
+		this.rank = rank;
 		this.suit = suit;
 	}
 	
-	public Rank getValue() {
-		return value;
+	public Rank getRank() {
+		return rank;
 	}
 	
 	public Suit getSuit() {
@@ -19,6 +18,6 @@ public class Card{
 	}
 	
 	public String toString() {
-    	return value.toString();
+    	return rank.toString() + "(" + suit.toString() + ")";
     }
 }
