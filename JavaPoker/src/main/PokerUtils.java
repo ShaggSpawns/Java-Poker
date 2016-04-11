@@ -8,7 +8,7 @@ public class PokerUtils {
 	private ArrayList<Card> allCards;
 	ArrayList<Card> sortedCardsLowHigh;
 	Card highestStraightCard;
-	boolean handPair = playerCards.get(0).getRank().getValue() == playerCards.get(1).getRank().getValue() ? false:true;
+	boolean handPair;
 	
 	public PokerUtils(ArrayList<Card> boardCards) {
 		this.boardCards = new ArrayList<Card>(boardCards);
@@ -20,6 +20,7 @@ public class PokerUtils {
 	 */
 	public int score(ArrayList<Card> playerCards) {
 		this.playerCards = new ArrayList<Card>(playerCards);
+		handPair = playerCards.get(0).getRank().equals(playerCards.get(1).getRank());
 		allCards = new ArrayList<Card>(boardCards);
 		allCards.addAll(playerCards);
 		if (checkFlush()) {
