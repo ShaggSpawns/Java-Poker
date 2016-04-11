@@ -5,26 +5,60 @@ import java.util.Collections;
 import java.util.Scanner;
 
 public class Board {
+	private static int handsPlayed = 0;
+	private static double ante =  0.0;
 	private ArrayList<Player> players;
 	private ArrayList<Player> foldedPlayers = new ArrayList<Player>();
 	private ArrayList<Card> shuffledCards;
 	private ArrayList<Card> boardCards = new ArrayList<Card>();
 	private double pot = 0.0;
 	
-	public Board(ArrayList<Player> players, double ante, int handCount) {
+	public Board(ArrayList<Player> players, double ante) {
+		Board.ante = ante;
+		new Board(players);
+	}
+	
+	public Board(ArrayList<Player> players) {
 		this.players = players;
 		shuffledCards = getShuffledCards();
-		
+		determineAnte();
+		removePlayers();
+		payAnte();
 		dealCards();
-		payAnte(ante, handCount);
-		for (int i = 3; i <= 5; i++) {
-			showCards(i);
-			getBet();
-		}
+		play();
 		determineWinner();
 		removePlayerCards();
 	}
 	
+	private void determineAnte() {
+		if(++handsPlayed % 46 == 0) {
+			ante += 50;
+			handsPlayed = 0;
+		}
+	}
+	
+	private void removePlayers() {
+		for (Player p: players) {
+			if (p.getChipCount() < ante)
+				players.remove(p);
+		}
+	}
+	
+	private void payAnte() {
+		for (int i = 0; i < players.size(); i++) {
+			if (i == handsPlayed % players.size()) {
+				pot += players.get(i).pay(ante * (players.size() - 1));
+				if (i != 0)
+					pot += players.get(i - 1).pay((ante * (players.size() - 1)) / 2);
+				else
+					pot += players.get(players.size() - 1).pay((ante * (players.size() - 1)) / 2);
+			} else if (i != handsPlayed % players.size() - 1) {
+				if (handsPlayed % players.size() != -1)
+					pot += players.get(i).pay(ante);
+			}
+		}
+	}
+
 	private void dealCards() {
 		for (int i = 0; i < 5; i++) {
 			boardCards.add(shuffledCards.get(0));
@@ -38,18 +72,12 @@ public class Board {
 		}
 	}
 	
-	private void payAnte(double ante, int handCount) {
-		for (int i = 0; i < players.size(); i++) {
-			if (i == handCount%players.size()) {
-				pot += players.get(i).pay(ante * (players.size() - 1));
-				if (i != 0)
-					pot += players.get(i - 1).pay((ante * (players.size() - 1)) / 2);
-				else
-					pot += players.get(players.size() - 1).pay((ante * (players.size() - 1)) / 2);
-			} else if (i != handCount%players.size() - 1) {
-				if (handCount%players.size() != -1)
-					pot += players.get(i).pay(ante);
-			}
+	private void play() {
+		for (int i = 3; i <= 5; i++) {
+			if (foldedPlayers.size() == players.size() - 1)
+				break;
+			showCards(i);
+			getBet(Poker.kb);
 		}
 	}
 	
@@ -59,9 +87,8 @@ public class Board {
 		System.out.println();
 	}
 	
-	private void getBet() {
-		Scanner scanner = new Scanner(System.in);
-		String input;
+	private void getBet(Scanner scanner) {
+		String input = "";
 		for (Player p: players) {
 			if (!foldedPlayers.contains(p)) {
 				System.out.print(p + " enter bet (or fold): ");
@@ -72,18 +99,17 @@ public class Board {
 					pot += p.pay(Integer.parseInt(input));
 			}
 		}
-		scanner.close();
 	}
 	
 	private void determineWinner() {
 		int lowestScore = 10;
 		ArrayList<Player> winners = new ArrayList<Player>();
-		PokerUtils pokerUtils = new PokerUtils();
+		PokerUtils pokerUtils = new PokerUtils(boardCards);
 		for (Player p: players) {
 			if (!foldedPlayers.contains(p)) {
-				int score = pokerUtils.score(p.getCards(), boardCards);
+				int score = pokerUtils.score(p.getCards());
 				if (score < lowestScore) {
-					winners.removeAll(winners);
+					winners.clear();
 					winners.add(p);
 					lowestScore = score;
 				} else if (score == lowestScore) {
@@ -91,8 +117,12 @@ public class Board {
 				}
 			}
 		}
+		if (winners.size() != 1)
+			PokerUtils.determineWinner(winners, lowestScore);
+		System.out.println("\n" + boardCards);
 		for (Player p: winners) {
-			p.addWinnings(pot);
+			p.addWinnings(pot / winners.size());
+			System.out.println(p + " WON " + (pot / winners.size()) + " [" + lowestScore + "]");
 		}
 	}
 	

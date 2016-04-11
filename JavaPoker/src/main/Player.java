@@ -23,7 +23,7 @@ public class Player {
 	}
 	
 	public void clearHand() {
-		cards.removeAll(cards);
+		cards.clear();
 	}
 	
 	public double pay(double amount) {
