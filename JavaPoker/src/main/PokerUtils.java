@@ -85,7 +85,7 @@ public class PokerUtils {
 	private boolean checkRoyalFlush() {
 		if(highestStraightCard.getRank().equals("A"))
 			for(int i = 0; i < 5; i++)
-				if(!(sortedCardsLowHigh.get(i).getSuit().equals(sortedCardsLowHigh.get(0).getSuit())))
+				if(!(sortedCardsLowHigh.get(i).getSuit() == sortedCardsLowHigh.get(0).getSuit()))
 					return false;
 		else
 			return false;
@@ -128,7 +128,6 @@ public class PokerUtils {
 		int totalStraightCards = 1;
 		int currentCheck;
 		int currentCheckLoc = 0;
-		boolean playerHasCard = false;
 		boolean straight = false;
 
 		ArrayList<Card> allCards = new ArrayList<Card>();
@@ -195,7 +194,7 @@ public class PokerUtils {
 		}
 		return false;
 	}
-
+	
 	private boolean checkTwoPair() {
 		boolean firstCard = false;
 		boolean secondCard = false;
