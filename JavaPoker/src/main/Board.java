@@ -91,7 +91,7 @@ public class Board {
 			if (!foldedPlayers.contains(p)) {
 				int score = pokerUtils.score(p.getCards());
 				if (score < lowestScore) {
-					winners.removeAll(winners);
+					winners.clear();
 					winners.add(p);
 					lowestScore = score;
 				} else if (score == lowestScore) {

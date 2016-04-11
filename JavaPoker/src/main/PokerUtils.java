@@ -159,13 +159,13 @@ public class PokerUtils {
 				if (c.equals(highestCard))
 					highestCardHolders.add(p);
 				if (c.compareTo(highestCard) > 0) {
-					highestCardHolders.removeAll(highestCardHolders);
+					highestCardHolders.clear();
 					highestCardHolders.add(p);
 					highestCard = c;
 				}
 			}
 		}
-		winners.removeAll(winners);
+		winners.clear();
 		winners.addAll(highestCardHolders);
 	}
 }
