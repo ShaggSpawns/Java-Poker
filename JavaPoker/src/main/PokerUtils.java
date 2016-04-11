@@ -119,6 +119,7 @@ public class PokerUtils {
 		int minLoc = 0;
 		int totalStraightCards = 1;
 		int currentCheck;
+		int currentCheckLoc = 0;
 		boolean playerHasCard = false;
 		boolean straight = false;
 
@@ -142,14 +143,25 @@ public class PokerUtils {
 		for(int i = 1; i < sortedCards.size(); i++) {
 			if(sortedCards.get(i).getRank().getValue() == currentCheck + 1)
 				totalStraightCards++;
-			else
+			else {
 				totalStraightCards = 1;
+				currentCheckLoc = i;
+			}
 			currentCheck = sortedCards.get(i).getRank().getValue();
 			if(totalStraightCards >= 5)
 				straight = true;
 		}
 		
-		for()
+		if(straight == true) {
+			for(int i = 0; i < currentCheckLoc; i++)
+				sortedCards.remove(0);
+			for(int i = currentCheckLoc + 5; i < sortedCards.size();)
+				sortedCards.remove(sortedCards.size());
+			for (Card p : playerCards)
+				for (Card s : sortedCards)
+					if (p.equals(s))
+						return true;
+		}
 		return false;
 	}
 
