@@ -2,8 +2,6 @@ package main;
 import java.util.Scanner;
 import java.util.ArrayList;
 
-//TODO Score Method, Chips, Betting, Orbit Count
-
 public class Poker {
 	public static String userInput;
 	public static int numHandsPlayed = 1;
@@ -12,9 +10,7 @@ public class Poker {
 	public static Scanner kb = new Scanner(System.in);
 	public static Board board;
 	public static ArrayList<Player> playerList = new ArrayList<Player>();
-	public static double ANTE = 100; //Antes change based on number of hands that have been played. There are also Big Blinds and Small Blinds
-								     //Big blinds in the opening (ante:100) will be 800 (9 players playing, 8 players ante'd)
-									 //Small blinds are always half the Big blind. So opening will be (small) 400/800 (big) ante 100
+	public static double ANTE = 100;
 	
 	public static void main(String[] args) {
 		while(playMore) {
