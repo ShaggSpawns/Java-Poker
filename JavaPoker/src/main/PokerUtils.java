@@ -6,8 +6,9 @@ public class PokerUtils {
 	private ArrayList<Card> boardCards;
 	private ArrayList<Card> playerCards;
 	private ArrayList<Card> allCards;
-	
-<<<<<<< HEAD
+
+	<<<<<<<HEAD
+
 	public int score(ArrayList<Card> playerHand, ArrayList<Card> boardCards) {
 		int cardSelector = 0;
 		boolean pair = (pair(playerHand, boardCards) || handPair(playerHand));
@@ -24,15 +25,14 @@ public class PokerUtils {
 			return 2;
 		if(fourOfKind)
 =======
+
 	public PokerUtils(ArrayList<Card> boardCards) {
 		this.boardCards = new ArrayList<Card>(boardCards);
 	}
-	
-	/* TODO Check flush -> royal -> straight
-	 * TODO Check four of a kind
-	 * TODO Check full house
-	 * TODO Check straight
-	 * TODO Check three of a kind (DONE)
+
+	/*
+	 * TODO Check flush -> royal -> straight TODO Check four of a kind TODO
+	 * Check full house TODO Check straight TODO Check three of a kind (DONE)
 	 */
 	public int score(ArrayList<Card> playerCards) {
 		this.playerCards = new ArrayList<Card>(playerCards);
@@ -75,8 +75,8 @@ public class PokerUtils {
 		int numDiamond = 0;
 		int numClub = 0;
 		int numSpade = 0;
-		for (Card p: playerCards) {
-			for (Card b: boardCards) {
+		for (Card p : playerCards) {
+			for (Card b : boardCards) {
 				if (p.getSuit() == b.getSuit()) {
 					switch (p.getSuit()) {
 					case Heart:
@@ -97,83 +97,102 @@ public class PokerUtils {
 		}
 		return (numHeart >= 5 || numDiamond >= 5 || numClub >= 5 || numSpade >= 5);
 	}
-	
+
 	private boolean checkRoyalFlush() {
 		return false;
 	}
-	
+
 	private boolean checkStraightFlush() {
 		return false;
 	}
-	
+
 	private boolean checkFourOfKind() {
 		return false;
 	}
-	
+
 	private boolean checkFullHouse() {
 		return false;
 	}
-	
+
 	private boolean checkStraight() {
 		int min = Rank.values()[0].getValue();
+		int minLoc = 0;
+		int totalStraightCards = 1;
+		int currentCheck;
 		boolean playerHasCard = false;
-		
+		boolean straight = false;
+
 		ArrayList<Card> allCards = new ArrayList<Card>();
 		ArrayList<Card> sortedCards = new ArrayList<Card>();
-		for (Card p: playerCards)
+		for (Card p : playerCards)
 			allCards.add(p);
-		for (Card b: boardCards)
+		for (Card b : boardCards)
 			allCards.add(b);
-		
-		for(int k = 0; k < allCards.size(); k++) {
-			for(int i = 0; i < allCards.size(); i++)
-				if(allCards.get(i).getRank().getValue() < min)
-					min = i;
-			sortedCards.add(allCards.get(min));
+
+		for (int k = 0; k < allCards.size(); k++) {
+			for (int i = 0; i < allCards.size(); i++)
+				if (allCards.get(i).getRank().getValue() < min) {
+					minLoc = i;
+					min = allCards.get(i).getRank().getValue();
+				}
+			sortedCards.add(allCards.get(minLoc));
 		}
+		
+		currentCheck = sortedCards.get(0).getRank().getValue();
+		for(int i = 1; i < sortedCards.size(); i++) {
+			if(sortedCards.get(i).getRank().getValue() == currentCheck + 1)
+				totalStraightCards++;
+			else
+				totalStraightCards = 1;
+			currentCheck = sortedCards.get(i).getRank().getValue();
+			if(totalStraightCards >= 5)
+				straight = true;
+		}
+		
+		for()
 		return false;
 	}
-	
+
 	private boolean checkThreeOfKind() {
 		int totalCardCount = 1;
-		for (Card p: playerCards) {
-			for (Card b: boardCards) {
+		for (Card p : playerCards) {
+			for (Card b : boardCards) {
 				if (p.equals(b))
 					totalCardCount++;
-				if(totalCardCount >= 3)
+				if (totalCardCount >= 3)
 					return true;
 			}
 			totalCardCount = 1;
 		}
 		return false;
 	}
-	
+
 	private boolean checkTwoPair() {
 		boolean firstCard = false;
 		boolean secondCard = false;
-		for (Card b: boardCards) {
+		for (Card b : boardCards) {
 			if (b.equals(playerCards.get(0)))
 				firstCard = true;
 		}
 		if (firstCard) {
-			for (Card b: boardCards) {
+			for (Card b : boardCards) {
 				if (b.equals(playerCards.get(1)))
 					secondCard = true;
 			}
 		}
 		return firstCard && secondCard;
 	}
-	
+
 	private boolean checkPair() {
-		for (Card p: playerCards) {
-			for (Card b: boardCards) {
+		for (Card p : playerCards) {
+			for (Card b : boardCards) {
 				if (p.equals(b))
 					return true;
 			}
 		}
 		return false;
 	}
-	
+
 	// Determine the actual winner if necessary
 	public static void determineWinner(ArrayList<Player> winners, int lowestScore) {
 		switch (lowestScore) {
@@ -200,12 +219,12 @@ public class PokerUtils {
 			break;
 		}
 	}
-	
+
 	private static void highestCardHolder(ArrayList<Player> winners) {
 		Card highestCard = winners.get(0).getCards().get(0);
 		ArrayList<Player> highestCardHolders = new ArrayList<Player>();
-		for (Player p: winners) {
-			for (Card c: p.getCards()) {
+		for (Player p : winners) {
+			for (Card c : p.getCards()) {
 				if (c.equals(highestCard))
 					highestCardHolders.add(p);
 				if (c.compareTo(highestCard) > 0) {
