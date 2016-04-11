@@ -6,13 +6,13 @@ public class PokerUtils {
 	private ArrayList<Card> boardCards;
 	private ArrayList<Card> playerCards;
 	private ArrayList<Card> allCards;
+	boolean handPair = playerCards.get(0).getRank().getValue() == playerCards.get(1).getRank().getValue() ? false:true;
 
 	<<<<<<<HEAD
 
 	public int score(ArrayList<Card> playerHand, ArrayList<Card> boardCards) {
 		int cardSelector = 0;
 		boolean pair = (pair(playerHand, boardCards) || handPair(playerHand));
-		boolean handPair = handPair(playerHand);
 		boolean twoPair = twoPair(playerHand, boardCards);
 		boolean threeOfKind = set(playerHand, boardCards);
 		boolean fourOfKind = false;
@@ -114,6 +114,8 @@ public class PokerUtils {
 		return false;
 	}
 
+	
+	//TODO Run through this with some test cases
 	private boolean checkStraight() {
 		int min = Rank.values()[0].getValue();
 		int minLoc = 0;
@@ -130,6 +132,7 @@ public class PokerUtils {
 		for (Card b : boardCards)
 			allCards.add(b);
 
+		//Sorts allCards lowest to highest
 		for (int k = 0; k < allCards.size(); k++) {
 			for (int i = 0; i < allCards.size(); i++)
 				if (allCards.get(i).getRank().getValue() < min) {
@@ -137,8 +140,10 @@ public class PokerUtils {
 					min = allCards.get(i).getRank().getValue();
 				}
 			sortedCards.add(allCards.get(minLoc));
+			allCards.remove(minLoc);
 		}
 		
+		//checks if a straight exists in the newly sorted cards
 		currentCheck = sortedCards.get(0).getRank().getValue();
 		for(int i = 1; i < sortedCards.size(); i++) {
 			if(sortedCards.get(i).getRank().getValue() == currentCheck + 1)
@@ -152,11 +157,13 @@ public class PokerUtils {
 				straight = true;
 		}
 		
+		//removes all cards that are not part of the straight, if the straight exists
 		if(straight == true) {
 			for(int i = 0; i < currentCheckLoc; i++)
 				sortedCards.remove(0);
 			for(int i = currentCheckLoc + 5; i < sortedCards.size();)
 				sortedCards.remove(sortedCards.size());
+			//checks if the player has one of the cards in the straight
 			for (Card p : playerCards)
 				for (Card s : sortedCards)
 					if (p.equals(s))
@@ -167,6 +174,7 @@ public class PokerUtils {
 
 	private boolean checkThreeOfKind() {
 		int totalCardCount = 1;
+		//goes through players hand and counts number of similar cards on the board
 		for (Card p : playerCards) {
 			for (Card b : boardCards) {
 				if (p.equals(b))
@@ -174,7 +182,8 @@ public class PokerUtils {
 				if (totalCardCount >= 3)
 					return true;
 			}
-			totalCardCount = 1;
+			if(!handPair)
+				totalCardCount = 1;
 		}
 		return false;
 	}
