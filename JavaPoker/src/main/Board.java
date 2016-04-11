@@ -3,7 +3,14 @@ package main;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
-
+//TODO add in section where if player's bet == player's totalChipCount && another player calls, original player to bet (the all-inner) auto-shows
+//cards, even if other players are still betting against on another. I.E.
+//4 player game.
+//Name(TotalChipCount) Action: Amount
+//P1(1500) BET: 1500 (All In), P2(2500) BET:1500 (Call), P1 shows hand, P3(4500) FOLD, P4(3200) BET: 1500, 
+//First three cards shown on board
+//P1(0) NOTHING (Cards still shown), P2(1000) CHECK: 0, P4(1700) BET:1000, P1(0) NOTHING (Cards still shown), P2(1000) CALL:1000 (All In)
+//All Players Show hands
 public class Board {
 	private static int handsPlayed = 0;
 	private static double ante =  0.0;

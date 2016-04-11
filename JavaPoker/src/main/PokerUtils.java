@@ -13,6 +13,7 @@ public class PokerUtils {
 	<<<<<<<HEAD
 
 	public int score(ArrayList<Card> playerHand, ArrayList<Card> boardCards) {
+		//if we aren't using any of these variables (i don't think i did) feel free to remove them
 		int cardSelector = 0;
 		boolean pair = (pair(playerHand, boardCards) || handPair(playerHand));
 		boolean twoPair = twoPair(playerHand, boardCards);
