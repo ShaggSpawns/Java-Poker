@@ -3,14 +3,20 @@ package main;
 import java.util.ArrayList;
 
 public class PokerUtils {
-	ArrayList<Card> boardCards;
-	ArrayList<Card> playerCards;
-	ArrayList<Card> allCards;
+	private ArrayList<Card> boardCards;
+	private ArrayList<Card> playerCards;
+	private ArrayList<Card> allCards;
 	
 	public PokerUtils(ArrayList<Card> boardCards) {
 		this.boardCards = new ArrayList<Card>(boardCards);
 	}
 	
+	/* TODO Check flush -> royal -> straight
+	 * TODO Check four of a kind
+	 * TODO Check full house
+	 * TODO Check straight
+	 * TODO Check three of a kind
+	 */
 	public int score(ArrayList<Card> playerCards) {
 		this.playerCards = new ArrayList<Card>(playerCards);
 		allCards = new ArrayList<Card>(boardCards);
@@ -118,6 +124,7 @@ public class PokerUtils {
 		return false;
 	}
 	
+	// Determine the actual winner if necessary
 	public static void determineWinner(ArrayList<Player> winners, int lowestScore) {
 		switch (lowestScore) {
 		case 1:
@@ -161,5 +168,4 @@ public class PokerUtils {
 		winners.removeAll(winners);
 		winners.addAll(highestCardHolders);
 	}
-	
 }
