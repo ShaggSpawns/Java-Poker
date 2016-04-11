@@ -6,6 +6,8 @@ public class PokerUtils {
 	private ArrayList<Card> boardCards;
 	private ArrayList<Card> playerCards;
 	private ArrayList<Card> allCards;
+	ArrayList<Card> sortedCardsLowHigh;
+	Card highestStraightCard;
 	boolean handPair = playerCards.get(0).getRank().getValue() == playerCards.get(1).getRank().getValue() ? false:true;
 
 	<<<<<<<HEAD
@@ -98,19 +100,42 @@ public class PokerUtils {
 		return (numHeart >= 5 || numDiamond >= 5 || numClub >= 5 || numSpade >= 5);
 	}
 
+	//checks highest card in straight to verify that it is royal and checks that straight is all of same suit
 	private boolean checkRoyalFlush() {
-		return false;
+		if(highestStraightCard.getRank().equals("A"))
+			for(int i = 0; i < 5; i++)
+				if(!(sortedCardsLowHigh.get(i).getSuit().equals(sortedCardsLowHigh.get(0).getSuit())))
+					return false;
+		else
+			return false;
+		return true;
 	}
 
 	private boolean checkStraightFlush() {
+		if(checkStraight() && checkFlush())
+			return true;
 		return false;
 	}
 
 	private boolean checkFourOfKind() {
+		int totalCardCount = 1;
+		//goes through players hand and counts number of similar cards on the board
+		for (Card p : playerCards) {
+			for (Card b : boardCards) {
+				if (p.equals(b))
+					totalCardCount++;
+				if (totalCardCount >= 4)
+					return true;
+			}
+			if(!handPair)
+				totalCardCount = 1;
+		}
 		return false;
 	}
 
 	private boolean checkFullHouse() {
+		if(checkTwoPair() && checkThreeOfKind())
+			return true;
 		return false;
 	}
 
@@ -169,6 +194,8 @@ public class PokerUtils {
 					if (p.equals(s))
 						return true;
 		}
+		highestStraightCard = sortedCards.get(5);
+		sortedCardsLowHigh = sortedCards;
 		return false;
 	}
 
