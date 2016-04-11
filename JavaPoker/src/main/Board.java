@@ -5,18 +5,28 @@ import java.util.Collections;
 import java.util.Scanner;
 
 public class Board {
+	private static int handsPlayed = 0;
+	private static double ante =  0.0;
 	private ArrayList<Player> players;
 	private ArrayList<Player> foldedPlayers = new ArrayList<Player>();
 	private ArrayList<Card> shuffledCards;
 	private ArrayList<Card> boardCards = new ArrayList<Card>();
 	private double pot = 0.0;
 	
-	public Board(ArrayList<Player> players, double ante, int handCount) {
+	public Board(ArrayList<Player> players, double ante) {
+		Board.ante = ante;
+		new Board(players);
+	}
+	public Board(ArrayList<Player> players) {
 		this.players = players;
 		shuffledCards = getShuffledCards();
+		if(++handsPlayed % 46 == 0) {
+			ante += 50;
+			handsPlayed = 0;
+		}
 		
 		dealCards();
-		payAnte(ante, handCount);
+		payAnte();
 		for (int i = 3; i <= 5; i++) {
 			showCards(i);
 			getBet(Poker.kb);
@@ -38,16 +48,16 @@ public class Board {
 		}
 	}
 	
-	private void payAnte(double ante, int handCount) {
+	private void payAnte() {
 		for (int i = 0; i < players.size(); i++) {
-			if (i == handCount%players.size()) {
+			if (i == handsPlayed % players.size()) {
 				pot += players.get(i).pay(ante * (players.size() - 1));
 				if (i != 0)
 					pot += players.get(i - 1).pay((ante * (players.size() - 1)) / 2);
 				else
 					pot += players.get(players.size() - 1).pay((ante * (players.size() - 1)) / 2);
-			} else if (i != handCount%players.size() - 1) {
-				if (handCount%players.size() != -1)
+			} else if (i != handsPlayed % players.size() - 1) {
+				if (handsPlayed % players.size() != -1)
 					pot += players.get(i).pay(ante);
 			}
 		}
