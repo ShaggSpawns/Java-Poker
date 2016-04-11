@@ -21,17 +21,12 @@ public class Poker {
 			introSequence();
 			while(playerList.size() > 1) {
 				board = new Board(playerList, ANTE, numHandsPlayed);
-				
+				System.out.println("\n\nNEW GAME\n");
 				numHandsPlayed++;
-				
-				//TODO move this to board class and make players pay these amounts every 8 rounds. IE. Round 1, player 1 pays BB. Player 9 pays SB
-				//players 2-8 pay ante. Round 2, Player 2 pays BB, Player 1 pays SB, others pay ante. Etc.
 				if(numHandsPlayed%46 == 0) {
 					ANTE += 50;
 					numHandsPlayed = 1;
 				}
-				bigBlind = (int) (ANTE/playerList.size()-1);
-				smallBlind = bigBlind/2;
 			}
 			endSequence();
 		}

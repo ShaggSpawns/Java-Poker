@@ -103,10 +103,28 @@ public class PokerUtils {
 	}
 	
 	private boolean checkTwoPair() {
-		return false;
+		boolean firstCard = false;
+		boolean secondCard = false;
+		for (Card b: boardCards) {
+			if (b.equals(playerCards.get(0)))
+				firstCard = true;
+		}
+		if (firstCard) {
+			for (Card b: boardCards) {
+				if (b.equals(playerCards.get(1)))
+					secondCard = true;
+			}
+		}
+		return firstCard && secondCard;
 	}
 	
 	private boolean checkPair() {
+		for (Card p: playerCards) {
+			for (Card b: boardCards) {
+				if (p.equals(b))
+					return true;
+			}
+		}
 		return false;
 	}
 	

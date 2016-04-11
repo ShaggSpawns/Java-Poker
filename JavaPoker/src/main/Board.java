@@ -19,7 +19,7 @@ public class Board {
 		payAnte(ante, handCount);
 		for (int i = 3; i <= 5; i++) {
 			showCards(i);
-			getBet();
+			getBet(Poker.kb);
 		}
 		determineWinner();
 		removePlayerCards();
@@ -59,9 +59,8 @@ public class Board {
 		System.out.println();
 	}
 	
-	private void getBet() {
-		Scanner scanner = new Scanner(System.in);
-		String input;
+	private void getBet(Scanner scanner) {
+		String input = "";
 		for (Player p: players) {
 			if (!foldedPlayers.contains(p)) {
 				System.out.print(p + " enter bet (or fold): ");
@@ -72,7 +71,6 @@ public class Board {
 					pot += p.pay(Integer.parseInt(input));
 			}
 		}
-		scanner.close();
 	}
 	
 	private void determineWinner() {
@@ -93,8 +91,10 @@ public class Board {
 		}
 		if (winners.size() != 1)
 			PokerUtils.determineWinner(winners, lowestScore);
+		System.out.println("\n" + boardCards);
 		for (Player p: winners) {
 			p.addWinnings(pot / winners.size());
+			System.out.println(p + " WON " + (pot / winners.size()) + " [" + lowestScore + "]");
 		}
 	}
 	
