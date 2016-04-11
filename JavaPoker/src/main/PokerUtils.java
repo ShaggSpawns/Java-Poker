@@ -41,8 +41,7 @@ public class PokerUtils {
 		this.playerCards = new ArrayList<Card>(playerCards);
 		allCards = new ArrayList<Card>(boardCards);
 		allCards.addAll(playerCards);
-		boolean flush = checkFlush();
-		if (flush) {
+		if (checkFlush()) {
 			if (checkRoyalFlush())
 				return 1;
 			else if (checkStraightFlush())
@@ -53,7 +52,7 @@ public class PokerUtils {
 			return 3;
 		else if (checkFullHouse())
 			return 4;
-		else if (flush)
+		else if (checkFlush())
 			return 5;
 <<<<<<< HEAD
 		if(straight)
