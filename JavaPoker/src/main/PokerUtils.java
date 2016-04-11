@@ -9,26 +9,7 @@ public class PokerUtils {
 	ArrayList<Card> sortedCardsLowHigh;
 	Card highestStraightCard;
 	boolean handPair = playerCards.get(0).getRank().getValue() == playerCards.get(1).getRank().getValue() ? false:true;
-
-	<<<<<<<HEAD
-
-	public int score(ArrayList<Card> playerHand, ArrayList<Card> boardCards) {
-		//if we aren't using any of these variables (i don't think i did) feel free to remove them
-		int cardSelector = 0;
-		boolean pair = (pair(playerHand, boardCards) || handPair(playerHand));
-		boolean twoPair = twoPair(playerHand, boardCards);
-		boolean threeOfKind = set(playerHand, boardCards);
-		boolean fourOfKind = false;
-		boolean fullHouse = false;
-		boolean straight = checkStraight(playerHand, straightCards);
-		boolean flush = checkFlush(playerHand, boardCards);
-		boolean straightFlush = false;
-		
-		if(straightFlush)
-			return 2;
-		if(fourOfKind)
-=======
-
+	
 	public PokerUtils(ArrayList<Card> boardCards) {
 		this.boardCards = new ArrayList<Card>(boardCards);
 	}
@@ -238,6 +219,8 @@ public class PokerUtils {
 					return true;
 			}
 		}
+		if(playerCards.get(0).getRank() == playerCards.get(1).getRank())
+			return true;
 		return false;
 	}
 
