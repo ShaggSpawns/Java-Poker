@@ -29,21 +29,14 @@ public class PokerUtils {
 				return 2;
 		}
 		if (checkFourOfKind())
->>>>>>> branch 'master' of https://github.com/ShaggSpawns/Java-Poker.git
 			return 3;
 		else if (checkFullHouse())
 			return 4;
 		else if (checkFlush())
 			return 5;
-<<<<<<< HEAD
-		if(straight)
-			return 6;
-		if(threeOfKind)
-=======
 		else if (checkStraight())
 			return 6;
 		else if (checkThreeOfKind())
->>>>>>> branch 'master' of https://github.com/ShaggSpawns/Java-Poker.git
 			return 7;
 		else if (checkTwoPair())
 			return 8;
@@ -82,8 +75,9 @@ public class PokerUtils {
 	}
 
 	//checks highest card in straight to verify that it is royal and checks that straight is all of same suit
+	//TODO use checkStraightFlush(), then just check that the last card is an Ace
 	private boolean checkRoyalFlush() {
-		if(highestStraightCard.getRank().equals("A"))
+		if(highestStraightCard.getRank().equals(Rank.Ace))
 			for(int i = 0; i < 5; i++)
 				if(!(sortedCardsLowHigh.get(i).getSuit() == sortedCardsLowHigh.get(0).getSuit()))
 					return false;
@@ -91,7 +85,8 @@ public class PokerUtils {
 			return false;
 		return true;
 	}
-
+	
+	// TODO Does this work?
 	private boolean checkStraightFlush() {
 		if(checkStraight() && checkFlush())
 			return true;
