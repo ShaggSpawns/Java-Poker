@@ -17,34 +17,30 @@ public class Board {
 		Board.ante = ante;
 		new Board(players);
 	}
+	
 	public Board(ArrayList<Player> players) {
 		this.players = players;
 		shuffledCards = getShuffledCards();
-		if(++handsPlayed % 46 == 0) {
-			ante += 50;
-			handsPlayed = 0;
-		}
-		
-		dealCards();
+		determineAnte();
+		removePlayers();
 		payAnte();
-		for (int i = 3; i <= 5; i++) {
-			showCards(i);
-			getBet(Poker.kb);
-		}
+		dealCards();
+		play();
 		determineWinner();
 		removePlayerCards();
 	}
 	
-	private void dealCards() {
-		for (int i = 0; i < 5; i++) {
-			boardCards.add(shuffledCards.get(0));
-			shuffledCards.remove(0);
+	private void determineAnte() {
+		if(++handsPlayed % 46 == 0) {
+			ante += 50;
+			handsPlayed = 0;
 		}
+	}
+	
+	private void removePlayers() {
 		for (Player p: players) {
-			for (int i = 0; i < 2; i++) {
-				p.addCard(shuffledCards.get(0));
-				shuffledCards.remove(0);
-			}
+			if (p.getChipCount() < ante)
+				players.remove(p);
 		}
 	}
 	
@@ -60,6 +56,28 @@ public class Board {
 				if (handsPlayed % players.size() != -1)
 					pot += players.get(i).pay(ante);
 			}
+		}
+	}
+
+	private void dealCards() {
+		for (int i = 0; i < 5; i++) {
+			boardCards.add(shuffledCards.get(0));
+			shuffledCards.remove(0);
+		}
+		for (Player p: players) {
+			for (int i = 0; i < 2; i++) {
+				p.addCard(shuffledCards.get(0));
+				shuffledCards.remove(0);
+			}
+		}
+	}
+	
+	private void play() {
+		for (int i = 3; i <= 5; i++) {
+			if (foldedPlayers.size() == players.size() - 1)
+				break;
+			showCards(i);
+			getBet(Poker.kb);
 		}
 	}
 	
