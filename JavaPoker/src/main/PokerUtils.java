@@ -8,7 +8,10 @@ public class PokerUtils {
 	private ArrayList<Card> allCards;
 	ArrayList<Card> sortedCardsLowHigh;
 	Card highestStraightCard;
+<<<<<<< HEAD
 	//Error Found here after running through game (12)
+=======
+>>>>>>> branch 'master' of https://github.com/ShaggSpawns/Java-Poker.git
 	boolean handPair;
 	
 	public PokerUtils(ArrayList<Card> boardCards) {
@@ -21,8 +24,12 @@ public class PokerUtils {
 	 */
 	public int score(ArrayList<Card> playerCards) {
 		this.playerCards = new ArrayList<Card>(playerCards);
+<<<<<<< HEAD
 		boolean handPairThing = playerCards.get(0).getRank().getValue() == playerCards.get(1).getRank().getValue() ? false:true;
 		handPair = handPairThing;
+=======
+		handPair = playerCards.get(0).getRank().equals(playerCards.get(1).getRank());
+>>>>>>> branch 'master' of https://github.com/ShaggSpawns/Java-Poker.git
 		allCards = new ArrayList<Card>(boardCards);
 		allCards.addAll(playerCards);
 		if (checkFlush()) {
@@ -31,12 +38,17 @@ public class PokerUtils {
 			else if (checkStraightFlush())
 				return 2;
 		}
+<<<<<<< HEAD
 		if (checkFourOfKind())
 //>>>>>>> branch 'master' of https://github.com/ShaggSpawns/Java-Poker.git
+=======
+		if (checkFourOfKind())
+>>>>>>> branch 'master' of https://github.com/ShaggSpawns/Java-Poker.git
 			return 3;
 		else if (checkFullHouse())
 			return 4;
 		else if (checkFlush())
+<<<<<<< HEAD
 			return 5;
 //<<<<<<< HEAD
 		if(checkStraight())
@@ -44,9 +56,17 @@ public class PokerUtils {
 		if(checkThreeOfKind())
 //=======
 			if (checkStraight())
+=======
+			return 5;
+		else if (checkStraight())
+>>>>>>> branch 'master' of https://github.com/ShaggSpawns/Java-Poker.git
 			return 6;
+<<<<<<< HEAD
 		else if (checkThreeOfKind())
 //>>>>>>> branch 'master' of https://github.com/ShaggSpawns/Java-Poker.git
+=======
+		else if (checkThreeOfKind())
+>>>>>>> branch 'master' of https://github.com/ShaggSpawns/Java-Poker.git
 			return 7;
 		else if (checkTwoPair())
 			return 8;
@@ -86,8 +106,13 @@ public class PokerUtils {
 	}
 
 	//checks highest card in straight to verify that it is royal and checks that straight is all of same suit
+	//TODO use checkStraightFlush(), then just check that the last card is an Ace
 	private boolean checkRoyalFlush() {
+<<<<<<< HEAD
 		if(highestStraightCard.getRank().equals(14)) //issue here when a flush occurs
+=======
+		if(highestStraightCard.getRank().equals(Rank.Ace))
+>>>>>>> branch 'master' of https://github.com/ShaggSpawns/Java-Poker.git
 			for(int i = 0; i < 5; i++)
 				if(!(sortedCardsLowHigh.get(i).getSuit() == sortedCardsLowHigh.get(0).getSuit()))
 					return false;
@@ -95,7 +120,8 @@ public class PokerUtils {
 			return false;
 		return true;
 	}
-
+	
+	// TODO Does this work? No.
 	private boolean checkStraightFlush() {
 		if(checkStraight() && checkFlush())
 			return true;
