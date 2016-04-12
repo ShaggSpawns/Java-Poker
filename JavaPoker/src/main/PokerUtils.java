@@ -8,7 +8,8 @@ public class PokerUtils {
 	private ArrayList<Card> allCards;
 	ArrayList<Card> sortedCardsLowHigh;
 	Card highestStraightCard;
-	boolean handPair = playerCards.get(0).getRank().getValue() == playerCards.get(1).getRank().getValue() ? false:true;
+	//Error Found here after running through game (12)
+	boolean handPair;
 	
 	public PokerUtils(ArrayList<Card> boardCards) {
 		this.boardCards = new ArrayList<Card>(boardCards);
@@ -20,6 +21,8 @@ public class PokerUtils {
 	 */
 	public int score(ArrayList<Card> playerCards) {
 		this.playerCards = new ArrayList<Card>(playerCards);
+		boolean handPairThing = playerCards.get(0).getRank().getValue() == playerCards.get(1).getRank().getValue() ? false:true;
+		handPair = handPairThing;
 		allCards = new ArrayList<Card>(boardCards);
 		allCards.addAll(playerCards);
 		if (checkFlush()) {
@@ -29,28 +32,29 @@ public class PokerUtils {
 				return 2;
 		}
 		if (checkFourOfKind())
->>>>>>> branch 'master' of https://github.com/ShaggSpawns/Java-Poker.git
+//>>>>>>> branch 'master' of https://github.com/ShaggSpawns/Java-Poker.git
 			return 3;
 		else if (checkFullHouse())
 			return 4;
 		else if (checkFlush())
 			return 5;
-<<<<<<< HEAD
-		if(straight)
+//<<<<<<< HEAD
+		if(checkStraight())
 			return 6;
-		if(threeOfKind)
-=======
-		else if (checkStraight())
+		if(checkThreeOfKind())
+//=======
+			if (checkStraight())
 			return 6;
 		else if (checkThreeOfKind())
->>>>>>> branch 'master' of https://github.com/ShaggSpawns/Java-Poker.git
+//>>>>>>> branch 'master' of https://github.com/ShaggSpawns/Java-Poker.git
 			return 7;
 		else if (checkTwoPair())
 			return 8;
-		else if (checkPair())
+		else if (checkPair() || handPair)
 			return 9;
 		else
 			return 10;
+		return 10;
 	}
 
 	private boolean checkFlush() {
@@ -83,7 +87,7 @@ public class PokerUtils {
 
 	//checks highest card in straight to verify that it is royal and checks that straight is all of same suit
 	private boolean checkRoyalFlush() {
-		if(highestStraightCard.getRank().equals("A"))
+		if(highestStraightCard.getRank().equals(14)) //issue here when a flush occurs
 			for(int i = 0; i < 5; i++)
 				if(!(sortedCardsLowHigh.get(i).getSuit() == sortedCardsLowHigh.get(0).getSuit()))
 					return false;
@@ -174,7 +178,7 @@ public class PokerUtils {
 					if (p.equals(s))
 						return true;
 		}
-		highestStraightCard = sortedCards.get(5);
+		highestStraightCard = sortedCards.get(3);
 		sortedCardsLowHigh = sortedCards;
 		return false;
 	}
@@ -218,7 +222,7 @@ public class PokerUtils {
 					return true;
 			}
 		}
-		if(playerCards.get(0).getRank() == playerCards.get(1).getRank())
+		if(handPair)
 			return true;
 		return false;
 	}
@@ -251,6 +255,7 @@ public class PokerUtils {
 	}
 
 	private static void highestCardHolder(ArrayList<Player> winners) {
+		//ran into an error here once in 50 games
 		Card highestCard = winners.get(0).getCards().get(0);
 		ArrayList<Player> highestCardHolders = new ArrayList<Player>();
 		for (Player p : winners) {

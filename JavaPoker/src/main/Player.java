@@ -45,9 +45,9 @@ public class Player {
 	public double getChipCount() {
 		return chipCount;
 	}
-	
+	//TODO Stop players from being able to enter in bets past their available balance
 	private void setChipCount(double chipCount) {
-		if (chipCount > 0)
+		if (chipCount >= 0)
 			this.chipCount = chipCount;
 		else
 			try {

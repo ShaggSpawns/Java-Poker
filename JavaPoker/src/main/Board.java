@@ -80,10 +80,11 @@ public class Board {
 	}
 	
 	private void play() {
-		for (int i = 3; i <= 5; i++) {
+		for (int i = 2; i <= 5; i++) {
 			if (foldedPlayers.size() == players.size() - 1)
 				break;
-			showCards(i);
+			if(i > 2)
+				showCards(i);
 			getBet(Poker.kb);
 		}
 	}
@@ -102,8 +103,12 @@ public class Board {
 				input = scanner.nextLine().toUpperCase();
 				if (input.equals("FOLD"))
 					foldedPlayers.add(p);
-				else
-					pot += p.pay(Integer.parseInt(input));
+				else {
+					if(input.equals(""))
+						pot += p.pay(0);
+					else
+						pot += p.pay(Integer.parseInt(input));
+				}
 			}
 		}
 	}
@@ -113,6 +118,7 @@ public class Board {
 		ArrayList<Player> winners = new ArrayList<Player>();
 		PokerUtils pokerUtils = new PokerUtils(boardCards);
 		for (Player p: players) {
+			//Error found here after running game (122)
 			if (!foldedPlayers.contains(p)) {
 				int score = pokerUtils.score(p.getCards());
 				if (score < lowestScore) {
