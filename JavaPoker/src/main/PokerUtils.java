@@ -121,7 +121,7 @@ public class PokerUtils {
 		return true;
 	}
 	
-	// TODO Does this work? No.
+	// TODO Does this work? No. Oh you right. Will fix later. Going to do the same thing as straightCheck() most likely
 	private boolean checkStraightFlush() {
 		if(checkStraight() && checkFlush())
 			return true;
