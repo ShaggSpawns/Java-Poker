@@ -33,9 +33,9 @@ public class Poker {
 			playerList.add(new Player("Bob"));
 			playerList.add(new Player("Joe"));
 			ArrayList<Card> boardCards = new ArrayList<Card>(getBoardCards());
-			playerList.get(0).addCard(new Card(Rank.Ace, Suit.Club));
-			playerList.get(0).addCard(new Card(Rank.Ace, Suit.Club));
-			playerList.get(1).addCard(new Card(Rank.Ace, Suit.Club));
+			playerList.get(0).addCard(new Card(Rank.Ten, Suit.Club));
+			playerList.get(0).addCard(new Card(Rank.Three, Suit.Club));
+			playerList.get(1).addCard(new Card(Rank.Ten, Suit.Club));
 			playerList.get(1).addCard(new Card(Rank.Ace, Suit.Club));
 			
 			int lowestScore = 10;
@@ -63,10 +63,10 @@ public class Poker {
 	private static ArrayList<Card> getBoardCards() {
 		ArrayList<Card> boardCards = new ArrayList<Card>();
 		boardCards.add(new Card(Rank.Ace, Suit.Club));
-		boardCards.add(new Card(Rank.Ace, Suit.Club));
-		boardCards.add(new Card(Rank.Ace, Suit.Club));
-		boardCards.add(new Card(Rank.Ace, Suit.Club));
-		boardCards.add(new Card(Rank.Ace, Suit.Club));
+		boardCards.add(new Card(Rank.King, Suit.Club));
+		boardCards.add(new Card(Rank.Queen, Suit.Club));
+		boardCards.add(new Card(Rank.Jack, Suit.Club));
+		boardCards.add(new Card(Rank.Three, Suit.Club));
 		return boardCards;
 	}
 }

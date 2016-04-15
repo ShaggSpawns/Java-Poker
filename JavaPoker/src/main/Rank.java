@@ -20,4 +20,14 @@ public enum Rank {
     public String toString() {
     	return name;
     }
+
+    public Rank nextRank()
+    {
+        return values()[(this.ordinal() + 1) % values().length];
+    }
+    
+    public Rank previousRank()
+    {
+        return values()[(this.ordinal() - 1) % values().length];
+    }
 }

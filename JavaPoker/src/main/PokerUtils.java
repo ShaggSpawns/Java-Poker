@@ -7,40 +7,40 @@ public class PokerUtils {
 	private ArrayList<Card> boardCards;
 	private ArrayList<Card> playerCards;
 	private ArrayList<Card> allCards;
-	ArrayList<Card> sortedCardsLowHigh;
-	Card highestStraightCard, highCardInHand;
+	private Card highestStraightCard;
+	private ArrayList<Card> straightCards;
 	boolean handPair;
 	
 	public PokerUtils(ArrayList<Card> boardCards) {
 		this.boardCards = new ArrayList<Card>(boardCards);
 	}
-
-	/*
-	 * TODO Check flush -> royal -> straight TODO Check four of a kind TODO
-	 * Check full house TODO Check straight TODO Check three of a kind (DONE)
-	 * TODO Highest effecting card in hand
-	 */
+	
 	public int score(ArrayList<Card> playerCards) {
 		this.playerCards = new ArrayList<Card>(playerCards);
 		handPair = playerCards.get(0).getRank().equals(playerCards.get(1).getRank());
 		allCards = new ArrayList<Card>(boardCards);
 		allCards.addAll(playerCards);
 		Collections.sort(allCards);
+		straightCards = new ArrayList<Card>(getStraightCards());
+		System.out.println(straightCards);
 		if (checkFlush()) {
-			if (checkRoyalFlush())
-				return 1;
-			else if (checkStraightFlush())
-				return 2;
+			if (checkStraightFlush()) {
+				if (checkRoyalFlush()) {
+					return 1;
+				} else {
+					return 2;
+				}
+			}
 		}
-		if (checkFourOfKind())
+		if (checkFourOfKind()) // TODO
 			return 3;
-		if (checkFullHouse())
+		if (checkFullHouse()) // TODO
 			return 4;
 		if (checkFlush())
 			return 5;
 		if(checkStraight())
 			return 6;
-		if (checkThreeOfKind())
+		if (checkThreeOfKind()) // TODO
 			return 7;
 		if (checkTwoPair())
 			return 8;
@@ -76,29 +76,78 @@ public class PokerUtils {
 		}
 		return (numHeart >= 5 || numDiamond >= 5 || numClub >= 5 || numSpade >= 5);
 	}
-
-	//checks highest card in straight to verify that it is royal and checks that straight is all of same suit
-	//TODO use checkStraightFlush(), then just check that the last card is an Ace
-	private boolean checkRoyalFlush() {
-		if(highestStraightCard.getRank().equals(Rank.Ace))
-			for(int i = 0; i < 5; i++)
-				if(!(sortedCardsLowHigh.get(i).getSuit() == sortedCardsLowHigh.get(0).getSuit()))
-					return false;
-		else
-			return false;
-		return true;
+	
+	private ArrayList<Card> getStraightCards() {
+		highestStraightCard = null;
+		// Remove duplicated rank cards
+		ArrayList<Card> noDupes = new ArrayList<Card>(allCards);
+		for (int i = 1; i < noDupes.size(); i++) {
+			if (noDupes.get(i).getRank().equals(noDupes.get(i - 1).getRank())) {
+				noDupes.remove(i);
+			}
+		}
+		
+		// Build contingent list of straight cards
+		ArrayList<Card> straightCards = new ArrayList<Card>();
+		for (int i = 1; i < allCards.size(); i++) {
+			if (straightCards.size() == 0)
+				straightCards.add(allCards.get(i - 1));
+			if (allCards.get(i).getRank().equals(allCards.get(i - 1).getRank().nextRank()))
+				straightCards.add(allCards.get(i));
+			else if (straightCards.size() < 5)
+				straightCards.clear();
+			else
+				break;
+		}
+		
+		// Check if straight and return list
+		if (straightCards.size() < 5)
+			straightCards.clear();
+		else {
+			for (Card p: playerCards) {
+				for (Card s: straightCards) {
+					if (p.getRank().equals(s.getRank())) {
+						highestStraightCard = straightCards.get(straightCards.size() - 1);
+						return straightCards;
+					}
+				}
+			}
+			straightCards.clear();
+		}
+		return straightCards;
 	}
 	
-	// TODO Does this work? No. Oh you right. Will fix later. Going to do the same thing as straightCheck() most likely
+	private boolean checkRoyalFlush() {
+		return highestStraightCard != null && highestStraightCard.getRank().equals(Rank.Ace);
+	}
+	
 	private boolean checkStraightFlush() {
-		if(checkStraight() && checkFlush())
-			for (Card p : playerCards)
-				for (Card s : allCards)
-					if (p.getSuit().equals(s.getSuit()))
-						return true;
+		if(checkStraight()) {
+			int numHeart = 0;
+			int numDiamond = 0;
+			int numClub = 0;
+			int numSpade = 0;
+			for (Card c : straightCards) {
+				switch (c.getSuit()) {
+				case Heart:
+					numHeart++;
+					break;
+				case Diamond:
+					numDiamond++;
+					break;
+				case Club:
+					numClub++;
+					break;
+				case Spade:
+					numSpade++;
+					break;
+				}
+			}
+			return (numHeart >= 5 || numDiamond >= 5 || numClub >= 5 || numSpade >= 5);
+		}
 		return false;
 	}
-
+	
 	private boolean checkFourOfKind() {
 		int totalCardCount = 1;
 		//goes through players hand and counts number of similar cards on the board
@@ -114,71 +163,24 @@ public class PokerUtils {
 		}
 		return false;
 	}
-
+	
 	private boolean checkFullHouse() {
 		if(checkTwoPair() && checkThreeOfKind())
 			return true;
 		return false;
 	}
-
 	
-	//TODO Run through this with some test cases
 	private boolean checkStraight() {
-		int totalStraightCards = 1;
-		int currentCheck;
-		int currentCheckLoc = 0;
-		boolean straight = false;
-		
-		//checks if a straight exists in the newly sorted cards
-		currentCheck = allCards.get(0).getRank().getValue();
-		for(int i = 1; i < allCards.size(); i++) {
-			if(allCards.get(i).getRank().getValue() == currentCheck + 1)
-				totalStraightCards++;
-			else {
-				totalStraightCards = 1;
-				currentCheckLoc = i;
-			}
-			currentCheck = allCards.get(i).getRank().getValue();
-			if(totalStraightCards >= 5)
-				straight = true;
-		}
-		
-		//removes all cards that are not part of the straight, if the straight exists
-		if(straight == true) {
-			for(int i = 0; i < currentCheckLoc; i++)
-				allCards.remove(0);
-			for(int i = currentCheckLoc + 5; i < allCards.size();)
-				allCards.remove(allCards.size());
-			//checks if the player has one of the cards in the straight
-			for (Card p : playerCards)
-				for (Card s : allCards)
-					if (p.equals(s))
-						return true;
-		}
-		highestStraightCard = allCards.get(3);
-		sortedCardsLowHigh = allCards;
-		return false;
+		return straightCards.size() != 0;
 	}
 
 	private boolean checkThreeOfKind() {
-		int totalCardCount = 1;
-		//goes through players hand and counts number of similar cards on the board
-		for (Card p : playerCards) {
-			for (Card b : boardCards) {
-				if (p.equals(b))
-					totalCardCount++;
-				if (totalCardCount >= 3) {
-					highCardInHand = p;
-					return true;
-				}
-			}
-			if(!handPair)
-				totalCardCount = 1;
-		}
 		return false;
 	}
 	
 	private boolean checkTwoPair() {
+		if (handPair)
+			return false;
 		boolean firstCard = false;
 		boolean secondCard = false;
 		for (Card b : boardCards) {
@@ -191,22 +193,21 @@ public class PokerUtils {
 					secondCard = true;
 			}
 		}
-		highCardInHand = playerCards.get(0).getRank().getValue() > playerCards.get(1).getRank().getValue() ? playerCards.get(0) : playerCards.get(1);
 		return firstCard && secondCard;
 	}
-
+	
 	private boolean checkPair() {
+		if(handPair)
+			return true;
 		for (Card p : playerCards) {
 			for (Card b : boardCards) {
 				if (p.equals(b))
 					return true;
 			}
 		}
-		if(handPair)
-			return true;
 		return false;
 	}
-
+	
 	// Determine the actual winner if necessary
 	public static void determineWinner(ArrayList<Player> winners, int lowestScore) {
 		switch (lowestScore) {
@@ -233,7 +234,7 @@ public class PokerUtils {
 			break;
 		}
 	}
-
+	
 	private static void highestCardHolder(ArrayList<Player> winners) {
 		//ran into an error here once in 50 games
 		Card highestCard = winners.get(0).getCards().get(0);

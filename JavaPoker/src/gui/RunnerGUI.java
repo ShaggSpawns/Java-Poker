@@ -49,6 +49,7 @@ public class RunnerGUI extends Application {
 		Tab playTab = new Tab();
 		playTab.setContent(playScreen());
 		Tab hostTab = new Tab();
+		hostTab.setContent(hostScreen());
 		return tab;
 	}
 }
