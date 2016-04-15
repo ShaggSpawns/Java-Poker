@@ -7,8 +7,8 @@ public class PokerUtils {
 	private ArrayList<Card> boardCards;
 	private ArrayList<Card> playerCards;
 	private ArrayList<Card> allCards;
-	private Card highestStraightCard;
 	private ArrayList<Card> straightCards;
+	private ArrayList<Card> dupeStraightCards;
 	boolean handPair;
 	
 	public PokerUtils(ArrayList<Card> boardCards) {
@@ -21,8 +21,8 @@ public class PokerUtils {
 		allCards = new ArrayList<Card>(boardCards);
 		allCards.addAll(playerCards);
 		Collections.sort(allCards);
-		highestStraightCard = null;
-		straightCards = new ArrayList<Card>(getStraightCards());
+		straightCards = getStraightCards();
+		dupeStraightCards = getDupeStraightCards();
 		System.out.println(straightCards);
 		if (checkFlush()) {
 			if (checkStraightFlush()) {
@@ -80,20 +80,26 @@ public class PokerUtils {
 	
 	private ArrayList<Card> getStraightCards() {
 		// Remove duplicated rank cards
+		ArrayList<Card> dupes = new ArrayList<Card>();
 		ArrayList<Card> noDupes = new ArrayList<Card>(allCards);
 		for (int i = 1; i < noDupes.size(); i++) {
 			if (noDupes.get(i).getRank().equals(noDupes.get(i - 1).getRank())) {
+				dupes.add(noDupes.get(i));
 				noDupes.remove(i);
 			}
 		}
 		
 		// Build contingent list of straight cards
 		ArrayList<Card> straightCards = new ArrayList<Card>();
-		for (int i = 1; i < allCards.size(); i++) {
+		for (int i = 1; i < noDupes.size(); i++) {
 			if (straightCards.size() == 0)
-				straightCards.add(allCards.get(i - 1));
-			if (allCards.get(i).getRank().equals(allCards.get(i - 1).getRank().nextRank()))
-				straightCards.add(allCards.get(i));
+				straightCards.add(noDupes.get(i - 1));
+			if (noDupes.get(i).getRank().equals(noDupes.get(i - 1).getRank().nextRank()))
+				straightCards.add(noDupes.get(i));
+			else if (straightCards.size() >= 4 && straightCards.get(0).getRank().equals(Rank.Two) && noDupes.get(noDupes.size() - 1).getRank().equals(Rank.Ace)) {
+				straightCards.add(0, noDupes.get(noDupes.size() - 1));
+				break;
+			}
 			else if (straightCards.size() < 5)
 				straightCards.clear();
 			else
@@ -106,10 +112,8 @@ public class PokerUtils {
 		else {
 			for (Card p: playerCards) {
 				for (Card s: straightCards) {
-					if (p.getRank().equals(s.getRank())) {
-						highestStraightCard = straightCards.get(straightCards.size() - 1);
+					if (p.getRank().equals(s.getRank()))
 						return straightCards;
-					}
 				}
 			}
 			straightCards.clear();
@@ -117,10 +121,28 @@ public class PokerUtils {
 		return straightCards;
 	}
 	
-	private boolean checkRoyalFlush() {
-		return highestStraightCard != null && highestStraightCard.getRank().equals(Rank.Ace);
+	private ArrayList<Card> getDupeStraightCards() {
+		ArrayList<Card> remaining = new ArrayList<Card>(allCards);
+		for (Card s: straightCards)
+			remaining.remove(s);
+		ArrayList<Card> dupes = new ArrayList<Card>();
+		for (Card s: straightCards) {
+			for (Card r: remaining) {
+				if (s.getRank().equals(r.getRank())) {
+					dupes.add(r);
+				}
+			}
+		}
+		return dupes;
 	}
 	
+	private boolean checkRoyalFlush() {
+		if (straightCards.size() != 0)
+			return straightCards.get(straightCards.size() - 1).getRank().equals(Rank.Ace);
+		return false;
+	}
+	
+	// Fix, so that it checks straight cards and their respective duplicate
 	private boolean checkStraightFlush() {
 		if(checkStraight()) {
 			int numHeart = 0;
@@ -150,7 +172,6 @@ public class PokerUtils {
 	
 	private boolean checkFourOfKind() {
 		int totalCardCount = 1;
-		//goes through players hand and counts number of similar cards on the board
 		for (Card p : playerCards) {
 			for (Card b : boardCards) {
 				if (p.equals(b))
@@ -245,7 +266,6 @@ public class PokerUtils {
 	}
 	
 	private static void highestCardHolder(ArrayList<Player> winners) {
-		//ran into an error here once in 50 games
 		Card highestCard = winners.get(0).getCards().get(0);
 		ArrayList<Player> highestCardHolders = new ArrayList<Player>();
 		for (Player p : winners) {
