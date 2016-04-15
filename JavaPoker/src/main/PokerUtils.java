@@ -175,6 +175,17 @@ public class PokerUtils {
 	}
 
 	private boolean checkThreeOfKind() {
+		int totalCardCount = 1;
+		for (Card p : playerCards) {
+			for (Card b : boardCards) {
+				if (p.equals(b))
+					totalCardCount++;
+				if (totalCardCount >= 3)
+					return true;
+			}
+			if(!handPair)
+				totalCardCount = 1;
+		}
 		return false;
 	}
 	
