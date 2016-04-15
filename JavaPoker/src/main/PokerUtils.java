@@ -21,6 +21,7 @@ public class PokerUtils {
 		allCards = new ArrayList<Card>(boardCards);
 		allCards.addAll(playerCards);
 		Collections.sort(allCards);
+		highestStraightCard = null;
 		straightCards = new ArrayList<Card>(getStraightCards());
 		System.out.println(straightCards);
 		if (checkFlush()) {
@@ -32,15 +33,15 @@ public class PokerUtils {
 				}
 			}
 		}
-		if (checkFourOfKind()) // TODO
+		if (checkFourOfKind())
 			return 3;
-		if (checkFullHouse()) // TODO
+		if (checkFullHouse())
 			return 4;
 		if (checkFlush())
 			return 5;
 		if(checkStraight())
 			return 6;
-		if (checkThreeOfKind()) // TODO
+		if (checkThreeOfKind())
 			return 7;
 		if (checkTwoPair())
 			return 8;
@@ -78,7 +79,6 @@ public class PokerUtils {
 	}
 	
 	private ArrayList<Card> getStraightCards() {
-		highestStraightCard = null;
 		// Remove duplicated rank cards
 		ArrayList<Card> noDupes = new ArrayList<Card>(allCards);
 		for (int i = 1; i < noDupes.size(); i++) {
@@ -165,9 +165,7 @@ public class PokerUtils {
 	}
 	
 	private boolean checkFullHouse() {
-		if(checkTwoPair() && checkThreeOfKind())
-			return true;
-		return false;
+		return checkTwoPair() && checkThreeOfKind();
 	}
 	
 	private boolean checkStraight() {
