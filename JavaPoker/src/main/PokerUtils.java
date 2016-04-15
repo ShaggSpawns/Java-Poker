@@ -82,9 +82,6 @@ public class PokerUtils {
 	//checks highest card in straight to verify that it is royal and checks that straight is all of same suit
 	//TODO use checkStraightFlush(), then just check that the last card is an Ace
 	private boolean checkRoyalFlush() {
-
-		if(highestStraightCard.getRank().equals(14)) //issue here when a flush occurs
-
 		if(highestStraightCard.getRank().equals(Rank.Ace))
 			for(int i = 0; i < 5; i++)
 				if(!(sortedCardsLowHigh.get(i).getSuit() == sortedCardsLowHigh.get(0).getSuit()))
@@ -97,7 +94,10 @@ public class PokerUtils {
 	// TODO Does this work? No. Oh you right. Will fix later. Going to do the same thing as straightCheck() most likely
 	private boolean checkStraightFlush() {
 		if(checkStraight() && checkFlush())
-			return true;
+			for (Card p : playerCards)
+				for (Card s : allCards)
+					if (p.getSuit().equals(s.getSuit()))
+						return true;
 		return false;
 	}
 
@@ -126,8 +126,6 @@ public class PokerUtils {
 	
 	//TODO Run through this with some test cases
 	private boolean checkStraight() {
-		int min = Rank.values()[0].getValue();
-		int minLoc = 0;
 		int totalStraightCards = 1;
 		int currentCheck;
 		int currentCheckLoc = 0;
@@ -136,10 +134,8 @@ public class PokerUtils {
 		//checks if a straight exists in the newly sorted cards
 		currentCheck = allCards.get(0).getRank().getValue();
 		for(int i = 1; i < allCards.size(); i++) {
-			if(allCards.get(i).getRank().getValue() == currentCheck + 1) {
+			if(allCards.get(i).getRank().getValue() == currentCheck + 1)
 				totalStraightCards++;
-				System.out.println(totalStraightCards);
-			}
 			else {
 				totalStraightCards = 1;
 				currentCheckLoc = i;
