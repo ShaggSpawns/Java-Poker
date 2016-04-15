@@ -22,8 +22,6 @@ public class PokerUtils {
 	 */
 	public int score(ArrayList<Card> playerCards) {
 		this.playerCards = new ArrayList<Card>(playerCards);
-		boolean handPairThing = playerCards.get(0).getRank().getValue() == playerCards.get(1).getRank().getValue() ? false:true;
-		handPair = handPairThing;
 		handPair = playerCards.get(0).getRank().equals(playerCards.get(1).getRank());
 		allCards = new ArrayList<Card>(boardCards);
 		allCards.addAll(playerCards);
@@ -46,7 +44,7 @@ public class PokerUtils {
 			return 7;
 		if (checkTwoPair())
 			return 8;
-		if (checkPair() || handPair)
+		if (checkPair())
 			return 9;
 		return 10;
 	}
