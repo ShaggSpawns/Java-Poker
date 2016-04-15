@@ -126,8 +126,6 @@ public class PokerUtils {
 	
 	//TODO Run through this with some test cases
 	private boolean checkStraight() {
-		int min = Rank.values()[0].getValue();
-		int minLoc = 0;
 		int totalStraightCards = 1;
 		int currentCheck;
 		int currentCheckLoc = 0;
