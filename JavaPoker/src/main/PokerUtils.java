@@ -1,6 +1,7 @@
 package main;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class PokerUtils {
 	private ArrayList<Card> boardCards;
@@ -26,6 +27,7 @@ public class PokerUtils {
 		handPair = playerCards.get(0).getRank().equals(playerCards.get(1).getRank());
 		allCards = new ArrayList<Card>(boardCards);
 		allCards.addAll(playerCards);
+		Collections.sort(allCards);
 		if (checkFlush()) {
 			if (checkRoyalFlush())
 				return 1;
@@ -130,29 +132,11 @@ public class PokerUtils {
 		int currentCheck;
 		int currentCheckLoc = 0;
 		boolean straight = false;
-
-		ArrayList<Card> allCards = new ArrayList<Card>();
-		ArrayList<Card> sortedCards = new ArrayList<Card>();
-		for (Card p : playerCards)
-			allCards.add(p);
-		for (Card b : boardCards)
-			allCards.add(b);
-
-		//Sorts allCards lowest to highest
-		while(allCards.size() > 0) {
-			for (int i = 0; i < allCards.size(); i++)
-				if (allCards.get(i).getRank().getValue() < min) {
-					minLoc = i;
-					min = allCards.get(i).getRank().getValue();
-				}
-			sortedCards.add(allCards.get(minLoc));
-			allCards.remove(minLoc);
-		}
 		
 		//checks if a straight exists in the newly sorted cards
-		currentCheck = sortedCards.get(0).getRank().getValue();
-		for(int i = 1; i < sortedCards.size(); i++) {
-			if(sortedCards.get(i).getRank().getValue() == currentCheck + 1) {
+		currentCheck = allCards.get(0).getRank().getValue();
+		for(int i = 1; i < allCards.size(); i++) {
+			if(allCards.get(i).getRank().getValue() == currentCheck + 1) {
 				totalStraightCards++;
 				System.out.println(totalStraightCards);
 			}
@@ -160,7 +144,7 @@ public class PokerUtils {
 				totalStraightCards = 1;
 				currentCheckLoc = i;
 			}
-			currentCheck = sortedCards.get(i).getRank().getValue();
+			currentCheck = allCards.get(i).getRank().getValue();
 			if(totalStraightCards >= 5)
 				straight = true;
 		}
@@ -168,17 +152,17 @@ public class PokerUtils {
 		//removes all cards that are not part of the straight, if the straight exists
 		if(straight == true) {
 			for(int i = 0; i < currentCheckLoc; i++)
-				sortedCards.remove(0);
-			for(int i = currentCheckLoc + 5; i < sortedCards.size();)
-				sortedCards.remove(sortedCards.size());
+				allCards.remove(0);
+			for(int i = currentCheckLoc + 5; i < allCards.size();)
+				allCards.remove(allCards.size());
 			//checks if the player has one of the cards in the straight
 			for (Card p : playerCards)
-				for (Card s : sortedCards)
+				for (Card s : allCards)
 					if (p.equals(s))
 						return true;
 		}
-		highestStraightCard = sortedCards.get(3);
-		sortedCardsLowHigh = sortedCards;
+		highestStraightCard = allCards.get(3);
+		sortedCardsLowHigh = allCards;
 		return false;
 	}
 
