@@ -51,8 +51,8 @@ public class Poker {
 					winners.add(p);
 				}
 			}
-			//if (winners.size() != 1)
-				//PokerUtils.determineWinner(winners, lowestScore);
+			if (winners.size() != 1)
+				PokerUtils.determineWinner(winners, lowestScore);
 			System.out.println("\n" + boardCards);
 			for (Player p: winners) {
 				System.out.println(p + " WON " + " [" + lowestScore + "]");
