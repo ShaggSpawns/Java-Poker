@@ -1,13 +1,18 @@
 package gui;
 
+import connection.Client;
+import connection.NetworkConnection;
+import connection.Server;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
 
 public class RunnerGUI extends Application {
@@ -39,17 +44,77 @@ public class RunnerGUI extends Application {
 	}
 	
 	private GridPane playScreen() {
-		GridPane grid = new GridPane();
-		grid.add(new Label("Playing"), 0, 0);
+		TextArea text = new TextArea();
+	    NetworkConnection connection = createClient(text);
+	    try {
+			connection.startConnection();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	    GridPane grid = new GridPane();
+		text.setEditable(false);
+		text.setFocusTraversable(false);
+		GridPane.setConstraints(text, 0, 0, 2, 1, null, null, Priority.ALWAYS, Priority.ALWAYS, new Insets(0,0,0,0));
+		TextField textField = new TextField();
+		textField.setOnAction(e -> {
+			String message = "Client: " + textField.getText();
+			
+			text.appendText(message + "\n");
+			textField.clear();
+			try {
+				connection.send(message);
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		});
+		GridPane.setConstraints(textField, 0, 1, 1, 1, null, null, Priority.ALWAYS, Priority.NEVER, new Insets(5,5,5,5));
+		Button submitBtn = new Button("Submit");
+		submitBtn.setOnAction(e -> textField.fireEvent(e));
+		GridPane.setConstraints(submitBtn, 1, 1, 1, 1, null, null, Priority.NEVER, Priority.NEVER, new Insets(5,5,5,5));
+		grid.getChildren().addAll(text, textField, submitBtn);
+		return grid;
+	}
+
+    private Client createClient(TextArea text) {
+        return new Client("127.0.0.1", 55555, data -> {
+            Platform.runLater(() -> {
+                text.appendText(data.toString() + "\n");
+            });
+        });
+    }
+	
+	private GridPane hostScreen() {
+		TextArea text = new TextArea();
+	    NetworkConnection connection = createServer(text);
+	    GridPane grid = new GridPane();
+		text.setEditable(false);
+		text.setFocusTraversable(false);
+		GridPane.setConstraints(text, 0, 0, 2, 1, null, null, Priority.ALWAYS, Priority.ALWAYS, new Insets(0,0,0,0));
+		TextField textField = new TextField();
+		textField.setOnAction(e -> {
+			String message = "Server: " + textField.getText();
+			
+			text.appendText(message + "\n");
+			textField.clear();
+			try {
+				connection.send(message);
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		});
+		GridPane.setConstraints(textField, 0, 1, 1, 1, null, null, Priority.ALWAYS, Priority.NEVER, new Insets(5,5,5,5));
+		Button submitBtn = new Button("Submit");
+		submitBtn.setOnAction(e -> textField.fireEvent(e));
+		GridPane.setConstraints(submitBtn, 1, 1, 1, 1, null, null, Priority.NEVER, Priority.NEVER, new Insets(5,5,5,5));
+		grid.getChildren().addAll(text, textField, submitBtn);
 		return grid;
 	}
 	
-	private TabPane hostScreen() {
-		TabPane tab = new TabPane();
-		Tab playTab = new Tab();
-		playTab.setContent(playScreen());
-		Tab hostTab = new Tab();
-		hostTab.setContent(hostScreen());
-		return tab;
-	}
+    private Server createServer(TextArea text) {
+        return new Server(55555, data -> {
+            Platform.runLater(() -> {
+                text.appendText(data.toString() + "\n");
+            });
+        });
+    }
 }
